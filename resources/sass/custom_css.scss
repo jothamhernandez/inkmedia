@@ -1,0 +1,17 @@
+.navigation {
+    min-height: 100vh;
+}
+
+.navigation ul {
+    padding: 0;
+    margin: 0;
+}
+
+.navigation li{
+    list-style: none;
+}
+
+.navigation #side-menu > li {
+    padding: 10px;
+    border-bottom: 1px solid lightgray;
+}
