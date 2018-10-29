@@ -65,5 +65,7 @@ class CoaCategory extends Controller
     public function destroy($id)
     {
         //
+        $coa = Coa::find($id);
+        $coa->delete();
     }
 }

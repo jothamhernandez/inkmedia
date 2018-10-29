@@ -64,5 +64,7 @@ class ItemController extends Controller
     public function destroy($id)
     {
         //
+        $item = ProductItems::find($id);
+        $item->delete();
     }
 }

@@ -28,6 +28,7 @@
                                     </div>
                                     <div>
                                         <button class="btn btn-link"><i class="fa fa-pencil"></i></button>
+                                        <button class="btn btn-link" @click="removeAccount($event, account, coa_type)"><i class="fa fa-trash"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -181,6 +182,15 @@ export default {
         });
         console.log(coa_type);
         this.newAccount.category = coa_cat[0];
+    },
+    removeAccount(e, item, coa_type){
+        let choice =confirm("are you sure you what to remove this product?");
+
+        if(choice){
+            axios.delete(`/api/v1/coa/${item.id}`).then(r=>{
+                coa_type.accounts.splice(coa_type.accounts.indexOf(item), 1);
+            });
+        }
     }
   }
 };

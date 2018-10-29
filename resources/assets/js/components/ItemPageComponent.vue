@@ -94,26 +94,33 @@ export default {
                         },
                         {data:'price'},
                         {
-                            data:null,
-                            defaultContent: `
-                            <button class="btn btn-link" @click="testing"><i class="fa fa-pencil"></i></button>
-                            <button class="btn btn-link" ><i class="fa fa-trash"></i></button>
-                            `
+                            data:{id:'id'},
+                            mRender: function(data){
+                                return `<button class="btn btn-link" @click="testing"><i class="fa fa-pencil"></i></button>
+                            <button class="btn btn-link" data-action="remove" data-id="${data.id}" ><i class="fa fa-trash"></i></button>
+                            `;
+                            }
                         }
-                    ],
-                    columnDefs: [ {
-                        "type": 'currency',
-                        "targets": 'price',
-                        "data": null,
-                        "defaultContent": "<button>Click!</button>"
-                    } ]
+                    ]
                 } 
             );
+            this.dataTable.on('draw', (e)=>{
+                $('[data-action=remove]').on('click', this.removeItem)
+            });
         });
     },
     methods: {
         submitForm(e){
             this.dataTable.ajax.reload();
+        },
+        removeItem(e){
+            let choice =confirm("are you sure you what to remove this product?");
+
+            if(choice){
+                axios.delete(`/api/v1/items/${$(e.target).data('id')}`).then(r=>{
+                    this.dataTable.ajax.reload();
+                });
+            }
         }
     }
 }

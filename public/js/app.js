@@ -46837,9 +46837,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         return "<p class=\"row-header\">" + data.name + "</p><p class=\"row-subheader\">" + data.first_name + " " + data.last_name + "</p>";
                     }
                 }, { data: 'email' }, { data: 'contact_no' }, {
-                    data: null,
-                    defaultContent: "\n                            <button class=\"btn btn-link\" @click=\"testing\"><i class=\"fa fa-pencil\"></i></button>\n                            <button class=\"btn btn-link\" ><i class=\"fa fa-trash\"></i></button>\n                            "
+                    data: { id: 'id' },
+                    mRender: function mRender(data) {
+                        return "\n                                    <button class=\"btn btn-link\" @click=\"testing\"><i class=\"fa fa-pencil\"></i></button>\n                                    <button class=\"btn btn-link\" data-action=\"remove\" data-id=\"" + data.id + "\"><i class=\"fa fa-trash\"></i></button>\n                                    ";
+                    }
                 }]
+            });
+            _this.dataTable.on('draw', function (e) {
+                $('[data-action=remove]').on('click', _this.removeCustomer);
             });
         });
     },
@@ -46847,6 +46852,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         submitForm: function submitForm(e) {
             this.dataTable.ajax.reload();
+        },
+        removeCustomer: function removeCustomer(e) {
+            var _this2 = this;
+
+            console.log($(e.target).data());
+            var choice = confirm("are you sure you what to remove this customer?");
+
+            if (choice) {
+                axios.delete("/api/v1/customer/" + $(e.target).data('id')).then(function (r) {
+                    _this2.dataTable.ajax.reload();
+                });
+            }
         }
     }
 });
@@ -47113,9 +47130,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         return "<p class=\"row-header\">" + data.vendor_name + "</p><p class=\"row-subheader\">" + data.first_name + " " + data.last_name + "</p>";
                     }
                 }, { data: 'email' }, { data: 'contact_no' }, {
-                    data: null,
-                    defaultContent: "\n                            <button class=\"btn btn-link\" @click=\"testing\"><i class=\"fa fa-pencil\"></i></button>\n                            <button class=\"btn btn-link\" ><i class=\"fa fa-trash\"></i></button>\n                            "
+                    data: { id: 'id' },
+                    mRender: function mRender(data) {
+                        return "\n                                    <button class=\"btn btn-link\" @click=\"testing\"><i class=\"fa fa-pencil\"></i></button>\n                                    <button class=\"btn btn-link\" data-action=\"remove\" data-id=\"" + data.id + "\" ><i class=\"fa fa-trash\"></i></button>\n                                \n                                ";
+                    }
                 }]
+            });
+            _this.dataTable.on('draw', function (e) {
+                $('[data-action=remove]').on('click', _this.removeVendor);
             });
         });
     },
@@ -47123,6 +47145,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         submitForm: function submitForm(e) {
             this.dataTable.ajax.reload();
+        },
+        removeVendor: function removeVendor(e) {
+            var _this2 = this;
+
+            console.log($(e.target).data());
+            var choice = confirm("are you sure you what to remove this vendor?");
+
+            if (choice) {
+                axios.delete("/api/v1/vendor/" + $(e.target).data('id')).then(function (r) {
+                    _this2.dataTable.ajax.reload();
+                });
+            }
         }
     }
 });
@@ -47413,6 +47447,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47503,6 +47538,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             console.log(coa_type);
             this.newAccount.category = coa_cat[0];
+        },
+        removeAccount: function removeAccount(e, item, coa_type) {
+            var choice = confirm("are you sure you what to remove this product?");
+
+            if (choice) {
+                axios.delete('/api/v1/coa/' + item.id).then(function (r) {
+                    coa_type.accounts.splice(coa_type.accounts.indexOf(item), 1);
+                });
+            }
         }
     }
 });
@@ -47614,7 +47658,26 @@ var render = function() {
                                     ])
                                   ]),
                                   _vm._v(" "),
-                                  _vm._m(0, true)
+                                  _c("div", [
+                                    _vm._m(0, true),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-link",
+                                        on: {
+                                          click: function($event) {
+                                            _vm.removeAccount(
+                                              $event,
+                                              account,
+                                              coa_type
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-trash" })]
+                                    )
+                                  ])
                                 ]
                               )
                             : _vm._e()
@@ -47912,10 +47975,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("button", { staticClass: "btn btn-link" }, [
-        _c("i", { staticClass: "fa fa-pencil" })
-      ])
+    return _c("button", { staticClass: "btn btn-link" }, [
+      _c("i", { staticClass: "fa fa-pencil" })
     ])
   },
   function() {
@@ -48039,7 +48100,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -48134,15 +48195,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 columns: [{
                     data: 'name'
                 }, { data: 'price' }, {
-                    data: null,
-                    defaultContent: "\n                            <button class=\"btn btn-link\" @click=\"testing\"><i class=\"fa fa-pencil\"></i></button>\n                            <button class=\"btn btn-link\" ><i class=\"fa fa-trash\"></i></button>\n                            "
-                }],
-                columnDefs: [{
-                    "type": 'currency',
-                    "targets": 'price',
-                    "data": null,
-                    "defaultContent": "<button>Click!</button>"
+                    data: { id: 'id' },
+                    mRender: function mRender(data) {
+                        return "<button class=\"btn btn-link\" @click=\"testing\"><i class=\"fa fa-pencil\"></i></button>\n                            <button class=\"btn btn-link\" data-action=\"remove\" data-id=\"" + data.id + "\" ><i class=\"fa fa-trash\"></i></button>\n                            ";
+                    }
                 }]
+            });
+            _this.dataTable.on('draw', function (e) {
+                $('[data-action=remove]').on('click', _this.removeItem);
             });
         });
     },
@@ -48150,6 +48210,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         submitForm: function submitForm(e) {
             this.dataTable.ajax.reload();
+        },
+        removeItem: function removeItem(e) {
+            var _this2 = this;
+
+            var choice = confirm("are you sure you what to remove this product?");
+
+            if (choice) {
+                axios.delete("/api/v1/items/" + $(e.target).data('id')).then(function (r) {
+                    _this2.dataTable.ajax.reload();
+                });
+            }
         }
     }
 });

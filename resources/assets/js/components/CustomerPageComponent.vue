@@ -86,16 +86,23 @@ export default {
                         {data:'email'},
                         {data:'contact_no'},
                         {
-                            data:null,
-                            defaultContent: `
-                            <button class="btn btn-link" @click="testing"><i class="fa fa-pencil"></i></button>
-                            <button class="btn btn-link" ><i class="fa fa-trash"></i></button>
-                            `
+                            data:{id:'id'},
+                            mRender: function(data){
+                                return `
+                                    <button class="btn btn-link" @click="testing"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-link" data-action="remove" data-id="${data.id}"><i class="fa fa-trash"></i></button>
+                                    `
+                            }
                         }
                     ]
                 } 
             );
+            this.dataTable.on( 'draw', (e) =>{
+                $('[data-action=remove]').on('click', this.removeCustomer)
+            });
         });
+
+        
 
         
        
@@ -103,6 +110,16 @@ export default {
     methods:{
         submitForm(e){
             this.dataTable.ajax.reload();
+        },
+        removeCustomer(e){
+            console.log($(e.target).data())
+            let choice =confirm("are you sure you what to remove this customer?");
+
+            if(choice){
+                axios.delete(`/api/v1/customer/${$(e.target).data('id')}`).then(r=>{
+                    this.dataTable.ajax.reload();
+                })
+            }
         }
     }
 }
