@@ -23,6 +23,7 @@ Vue.component('admin-vendorpage',require('./components/VendorPageComponent.vue')
 Vue.component('admin-coapage', require('./components/COAComponent.vue'));
 Vue.component('admin-itempage', require('./components/ItemPageComponent.vue'));
 Vue.component('admin-estimatepage', require('./components/EstimatePageComponent.vue'));
+Vue.component('admin-transaction',require('./components/TransactionPageComponent.vue'));
 
 // Forms
 Vue.component('admin-createestimate', require('./forms/createEstimateComponent.vue'));

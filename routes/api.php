@@ -24,4 +24,5 @@ Route::group(['prefix'=>'v1'], function(){
     Route::apiResource('customer','Api\CustomerController');
     Route::apiResource('items', 'Api\ItemController');
     Route::apiResource('estimates', 'Api\EstimateController');
+    Route::apiResource('transactions','Api\TransactionController');
 });

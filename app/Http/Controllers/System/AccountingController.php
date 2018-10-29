@@ -10,7 +10,7 @@ class AccountingController extends Controller
     //
 
     public function transaction(){
-        return view('home');
+        return view('system.transactions');
     }
 
     public function journaltransaction(){
