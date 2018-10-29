@@ -16,3 +16,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::group(['prefix'=>'v1'], function(){
+    Route::apiResource('coa','Api\CoaCategory');
+    Route::apiResource('vendor', 'Api\VendorController');
+    Route::apiResource('customer','Api\CustomerController');
+    Route::apiResource('items', 'Api\ItemController');
+    Route::apiResource('estimates', 'Api\EstimateController');
+});

@@ -8,12 +8,17 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Bootstrap core CSS-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <!-- Custom fonts for this template-->
     <link href="{{ asset('/vendor/') }}/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> <!-- latest 5.0.13 june 2018, needs update -->
     <!-- Custom styles for this template-->
+      <link rel="stylesheet" href="{{asset('/css/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
     <link href="{{ asset('/css/') }}/sb-admin.css" rel="stylesheet">
+  
 </head>
 
 @isset($bodyclass)
@@ -23,8 +28,15 @@
     <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 @endempty
 
-
+@isset($hidenav)
+<div id="app">
+@endisset
+@empty($hidenav)
+<div class="content-wrapper" id="app">
+@endempty
 @yield('content')
+</div>
+
 
 @empty($hidenav)
     @include('layouts.nav')
@@ -40,16 +52,20 @@
 
 <!-- Page level plugin JavaScript-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js" integrity="sha256-JG6hsuMjFnQ2spWq0UiaDRJBaarzhFbUxiUTxQDA9Lk=" crossorigin="anonymous"></script>
-
+<script src="{{ asset('/js/app.js')}}"></script>
 <script src="{{ asset('/vendor/') }}/datatables/jquery.dataTables.js"></script>
 <script src="{{ asset('/vendor/') }}/datatables/dataTables.bootstrap4.js"></script>
 
 <!-- Custom scripts for all pages-->
+
 <script src="{{ asset('/js/') }}/sb-admin.js"></script>
 
 <!-- Custom scripts for this page-->
-<script src="{{ asset('/js/') }}/sb-admin-datatables.js"></script>
-<script src="{{ asset('/js/') }}/sb-admin-charts.js"></script>
+<!-- <script src="{{ asset('/js/') }}/sb-admin-datatables.js"></script>
+<script src="{{ asset('/js/') }}/sb-admin-charts.js"></script> -->
+<script src="{{ asset('/js/raphael-min.js') }}"></script>
+<script src="{{ asset('/js/morris.min.js') }}"></script>
+
 
 <script>
     $('#toggleNavPosition').click(function() {

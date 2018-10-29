@@ -11,10 +11,18 @@ class ManageController extends Controller
     //
 
     public function customer(){
-        return view('home');
+        return view('system.customer');
     }
 
     public function vendors(){
-        return view('home');
+        return view('system.vendor');
+    }
+
+    public function chartofaccounts(){
+        return view('system.coa');
+    }
+
+    public function itemproduct(){
+        return view('system.itemproducts');
     }
 }

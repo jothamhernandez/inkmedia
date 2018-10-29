@@ -38,7 +38,7 @@
 	<body>
 		<div class="container">
 			<div class="content">
-				<div class="title">Laravel 5</div>
+				<div class="title">Ink Media Advertising</div>
 			</div>
 		</div>
 	</body>

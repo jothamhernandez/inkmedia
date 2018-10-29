@@ -17,6 +17,8 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
+Vue.component('admin-dashboard', require('./components/DashboardComponent.vue'));
+
 const app = new Vue({
     el: '#app'
 });

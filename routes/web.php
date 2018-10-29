@@ -4,25 +4,33 @@
 
 Route::get('/', 'WelcomeController@index');
 
-Route::get('/admin/{demopage?}', 'DemoController@demo')->name('demo');
+
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', function(){
+    return redirect('admin/dashboard');
+})->name('home');
 
-
+// Route::get('/admin/{demopage?}', 'DemoController@demo')->name('demo');
 // Admin Routes
-Route::group(['prefix'=>'admin'], function(){
+Route::group(['prefix'=>'admin','middleware'=>['auth']], function(){
     
+    Route::get('dashboard','System\DashboardController@index');
+
+
     // Manage Routes
     Route::group(['prefix'=>'manage'], function(){
         Route::get('customers','System\ManageController@customer')->name('manage.customers');
         Route::get('vendors','System\ManageController@vendors')->name('manage.vendors');
+        Route::get('chart-of-accounts','System\ManageController@chartofaccounts')->name('manage.coa');
+        Route::get('item-products','System\ManageController@itemproduct')->name('manage.items');
     });
 
     // Manage Routes
     Route::group(['prefix'=>'sales'], function(){
         Route::get('estimates','System\SalesController@estimates')->name('sales.estimates');
+        Route::get('estimates/create', 'System\SalesController@createEstimate')->name('sales.estimate.create');
         Route::get('invoices','System\SalesController@invoices')->name('sales.invoices');
         Route::get('customer-statements','System\SalesController@customerstatements')->name('sales.customerstatements');
     });

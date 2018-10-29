@@ -10,7 +10,11 @@ class SalesController extends Controller
     //
 
     public function estimates(){
-        return view('home');
+        return view('system.estimate');
+    }
+
+    public function createEstimate(){
+        return view('system.createEstimate');
     }
 
     public function invoices(){

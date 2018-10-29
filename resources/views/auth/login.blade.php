@@ -1,4 +1,4 @@
-@extends('layouts.app', ['bodyclass' => 'bg-dark', 'hidenav' => true])
+@extends('layouts.app', ['bodyclass' => '', 'hidenav' => true])
 
 @section('content')
 

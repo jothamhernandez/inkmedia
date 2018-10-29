@@ -17,6 +17,26 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
+Vue.component('admin-dashboard', require('./components/DashboardComponent.vue'));
+Vue.component('admin-customerpage',require('./components/CustomerPageComponent.vue'));
+Vue.component('admin-vendorpage',require('./components/VendorPageComponent.vue'));
+Vue.component('admin-coapage', require('./components/COAComponent.vue'));
+Vue.component('admin-itempage', require('./components/ItemPageComponent.vue'));
+Vue.component('admin-estimatepage', require('./components/EstimatePageComponent.vue'));
+
+// Forms
+Vue.component('admin-createestimate', require('./forms/createEstimateComponent.vue'));
+
+// Generic 
+Vue.component('add-modal', require('./components/generic/AddModalComponent.vue'));
 const app = new Vue({
     el: '#app'
 });
+window.clone = function(obj) {
+    if (null == obj || "object" != typeof obj) return obj;
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
+}
