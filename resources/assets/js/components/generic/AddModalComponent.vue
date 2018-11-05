@@ -13,8 +13,14 @@
                        <div class="form-group" v-for="field in form.fields" :key="field.name" v-if="field.required == null || newForm[field.required]">
                            <div class="row">
                                <label for="" class="col-form-label col-md-3 text-right">{{field.name}}</label>
-                                <div class="col-md-9">
-                                    <input :type="field.type" :placeholder="field.name" class="form-control" v-model="newForm[field.model]">
+                               <div class="col-md-9" v-if="field.type == 'select'">
+                                   <select name="" id="" class="form-control" v-model="newForm[field.model]">
+                                       <option :value="options[field.model]" v-for="options in field.options" :key="options.id" v-if="field.options != null">{{options[field.model]}}</option>
+                                   </select>
+                                </div>
+                                <div class="col-md-9" v-if="field.type != 'select'">
+                                    {{getValues(field)}}
+                                    <input :type="field.type" :placeholder="field.name" class="form-control" v-bind:value="field.value" v-model="newForm[field.model]"  :disabled="field.disabled" >
                                 </div>
                            </div>
                        </div>
@@ -31,6 +37,14 @@
 
 <script>
 export default {
+    watch:{
+        newForm:{
+            handler(val){
+                this.getValues();
+            },
+            deep: true
+        }
+    },
     props:{
         id: String,
         form: {
@@ -56,7 +70,11 @@ export default {
                 this.$emit('submit', r.data);
                 $("[data-dismiss=modal]").click()
             });
-            
+        },
+        getValues(field){
+            if(field && field.value){
+                this.newForm[field.model] = field.value;
+            }
         }
     }
 }

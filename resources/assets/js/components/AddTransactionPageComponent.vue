@@ -50,10 +50,11 @@
                                         <th>Description</th>
                                         <th>Entry</th>
                                         <th>Price</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="transaction in form.transactions" :key="transaction.id" v-if="form.transactions">
+                                    <tr v-for="transaction in form.transactions" :key="transaction.id" v-if="form.transactions" :class="{'bg-success':transaction.newtransaction}">
                                         <th>
                                             <select name="" id="" v-model="transaction.account" @change="getAccountDetails(transaction)" class="form-control">
                                                 <option :value="account.account_name" v-for="account in accounts" :key="account.id">{{account.account_name}}</option>
@@ -68,6 +69,9 @@
                                         <th><button class="btn btn-sm" :class="{'btn-success': transaction.entry == 'debit', 'btn-danger': transaction.entry == 'credit'}">{{transaction.entry}}</button></th>
                                         <th>
                                             <input type="text" class="form-control" placeholder="price" v-model="transaction.price">
+                                        </th>
+                                        <th>
+                                            <button class="btn btn-link" @click="removeTransaction(transaction)"><a href="" class="fa fa-trash"></a></button>
                                         </th>
                                     </tr>
                                 </tbody>
@@ -130,7 +134,8 @@ export default {
                 description: null,
                 entry:null,
                 price: null,
-                status: 'approved'
+                status: 'approved',
+                newtransaction: true,
             },
             index: 1,
         }
@@ -183,7 +188,9 @@ export default {
                     window.location.href = "/admin/accounting/journaltransaction"
                 });
             }
-            
+        },
+        removeTransaction(transaction){
+            this.form.transactions.splice(this.form.transactions.indexOf(transaction), 1);
         }
     }
 }
