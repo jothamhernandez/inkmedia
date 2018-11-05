@@ -25,4 +25,8 @@ Route::group(['prefix'=>'v1'], function(){
     Route::apiResource('items', 'Api\ItemController');
     Route::apiResource('estimates', 'Api\EstimateController');
     Route::apiResource('transactions','Api\TransactionController');
+    Route::apiResource('invoice', 'Api\InvoiceController');
+    Route::apiResource('bills', 'Api\BillController');
+    Route::apiResource('journal', 'Api\JournalController');
+    Route::get('report','Api\ReportController@profitandloss');
 });

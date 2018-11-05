@@ -18,7 +18,7 @@ class SalesController extends Controller
     }
 
     public function invoices(){
-        return view('home');
+        return view('system.invoices');
     }
 
     public function customerstatements(){

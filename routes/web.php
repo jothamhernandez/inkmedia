@@ -37,12 +37,15 @@ Route::group(['prefix'=>'admin','middleware'=>['auth']], function(){
 
     Route::group(['prefix'=>'purchases'], function(){
         Route::get('bills','System\PurchaseController@bills')->name('purchases.bills');
+        route::get('bills/create', 'System\PurchaseController@createBill')->name('purchases.bill.create');
         Route::get('receipts','System\PurchaseController@receipts')->name('purchases.receipts');
     });
 
     Route::group(['prefix'=>'accounting'], function(){
         Route::get('transaction','System\AccountingController@transaction')->name('accounting.transaction');
+        Route::get('transaction/add-journal','System\AccountingController@addTransaction')->name('accounting.transaction.add');
         Route::get('journaltransaction','System\AccountingController@journaltransaction')->name('accounting.journaltransaction');
+        Route::get('journaltransaction/{id}', 'System\AccountingController@editJournal')->name('accounting.journaltransaction.edit');
         Route::get('startingbalance','System\AccountingController@startingbalance')->name('accounting.startingbalance');
     });
 });

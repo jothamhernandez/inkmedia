@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Estimate;
 use App\Model\EstimateItems;
+use App\Model\Invoices;
 
 class EstimateController extends Controller
 {
@@ -72,6 +73,22 @@ class EstimateController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $invoice = Estimate::find($id);
+       
+        $toInvoice = $invoice;
+        // unset($toInvoice['id']);
+        
+        $toInvoice = $toInvoice->toArray();
+        $toInvoice['items'] = $invoice['items']->toJson();
+        unset($toInvoice['id']);
+        
+        $valid = Invoices::create($toInvoice);
+        $invoice->status = 'accepted';
+        unset($invoice['items']);
+        unset($invoice['customer']);
+        $invoice->save();
+        return response()->json($valid);
+        dd(Estimate::find($id));
         //
     }
 

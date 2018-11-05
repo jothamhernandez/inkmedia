@@ -10,7 +10,11 @@ class PurchaseController extends Controller
     //
 
     public function bills(){
-        return view('home');
+        return view('system.bills');
+    }
+
+    public function createBill(){
+        return view('system.createBill');
     }
 
     public function reciepts(){

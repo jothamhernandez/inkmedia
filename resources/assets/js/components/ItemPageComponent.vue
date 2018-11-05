@@ -7,18 +7,7 @@
             </div>
         </div>
         <div class="row">
-            <table id="vendor-table" class="table">
-                <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Price</th>
-
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            <data-table url="/api/v1/items" :data="record" :columns="columns" v-on:remove="removeItem"></data-table>
         </div>
         <add-modal id="product-modal" :form="form" v-on:submit="submitForm"></add-modal>
     </div>
@@ -28,6 +17,22 @@
 export default {
     data(){
         return {
+            record: [],
+            columns: [
+                { title: "Product Name", mData: "name" },
+                { title: "Price", mData: "price",
+                    mRender: function(data){
+                        return toCurrency("Php", data || 0);
+                    }
+                },
+                { 
+                    title: "Action", mData: 'id',
+                    mRender: function(data){
+                        return `<button class="btn btn-link" @click="testing"><i class="fa fa-pencil"></i></button>
+                            <button class="btn btn-link" data-action="remove" data-id="${data}" ><i class="fa fa-trash"></i></button>`
+                    }
+                },
+            ],
             form:{
                 submitText: "Add Item or Service",
                 url:"/api/v1/items",
@@ -72,7 +77,7 @@ export default {
                     {
                         name: "Sales Tax",
                         type: "number",
-                        model: 'sales_tax'
+                        model: 'sales_tax',
                     }
                 ]
             },
@@ -80,47 +85,18 @@ export default {
         }
     },
     mounted(){
-
-        $(document).ready(()=>{
-            this.dataTable = $('#vendor-table').DataTable(
-                {
-                    ajax: {
-                        url: '/api/v1/items',
-                        dataSrc: ''
-                    },
-                    columns:[
-                        {
-                            data:'name'
-                        },
-                        {data:'price'},
-                        {
-                            data:{id:'id'},
-                            mRender: function(data){
-                                return `<button class="btn btn-link" @click="testing"><i class="fa fa-pencil"></i></button>
-                            <button class="btn btn-link" data-action="remove" data-id="${data.id}" ><i class="fa fa-trash"></i></button>
-                            `;
-                            }
-                        }
-                    ]
-                } 
-            );
-            this.dataTable.on('draw', (e)=>{
-                $('[data-action=remove]').on('click', this.removeItem)
+           
+            axios('/api/v1/items').then(r=>{
+                this.record = r.data;
             });
-        });
+        
     },
     methods: {
         submitForm(e){
-            this.dataTable.ajax.reload();
+            this.record.push(e);
         },
         removeItem(e){
-            let choice =confirm("are you sure you what to remove this product?");
-
-            if(choice){
-                axios.delete(`/api/v1/items/${$(e.target).data('id')}`).then(r=>{
-                    this.dataTable.ajax.reload();
-                });
-            }
+            this.record.splice(this.record.indexOf(e), 1);
         }
     }
 }

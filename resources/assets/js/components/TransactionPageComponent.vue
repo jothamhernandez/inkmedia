@@ -3,29 +3,13 @@
         <div class="row">
             <div class="col-md-12">
                 <h1 class="float-left">Transactions</h1>
-                <button class="btn btn-primary float-right" data-toggle="modal" data-target="#product-modal"><i class='fa fa-plus'></i> Add an item</button>
+                <a href="" class="btn btn-primary float-right m-1">Add Expense</a>
+                <a href="" class="btn btn-primary float-right m-1">Add Income</a>
+                <a class="btn btn-primary float-right m-1" href="/admin/accounting/transaction/add-journal"><i class='fa fa-plus'></i> Add Journal Trasaction</a>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <div class="transactions">
-                    <div class="transaction" v-for="transaction in transactions" :key="transaction.id">
-                        <div style="flex-basis: 20%; flex-shrink: 0;">
-                            <p>{{transaction.created_at}}</p>
-                        </div>
-                        <div style="flex-basis: 30%; flex-shrink: 0;">
-                            <h4>{{transaction.description}}</h4>
-                            <p class="small">{{transaction.account}}</p>
-                        </div>
-                        <div style="flex-basis: 20%; flex-shrink: 0;">
-                            <p>{{transaction.price}}</p>
-                        </div>
-                        <div style="flex-basis: 30%; flex-shrink: 0;">
-                            <p>{{transaction.description}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <data-table url="/api/v1/invoice" :data="transactions" :columns="columns" v-on:pay-invoice="payInvoice" v-on:cancel-invoice="cancelInvoice"></data-table>
         </div>
     </div>
 </template>
@@ -34,7 +18,64 @@
 export default {
     data(){
         return {
-            transactions:[]
+            transactions:[],
+            columns: [
+                {
+                    title: "Id",
+                    mData: 'id'
+                },
+                {
+                    title: "Date",
+                    mData: 'created_at',
+                    mRender: function(data){
+                        console.log(data);
+                        return datefixed(data);
+                    }
+                },
+                {
+                    title: "Details",
+                    mData: function(source){
+                        return source;
+                    },
+                    mRender: function(data){
+                        return `<div">
+                            <h5>${data.description}</h5>
+                            <p class="small">${data.account}</p>
+                        </div>`;
+                    }
+                },  
+                {
+                    title: "Price",
+                    mData: function(source){
+                        return source;
+                    },
+                    mRender: function(data){
+                        return toCurrency("Php", data.price);
+                    }
+                }, 
+                {
+                    title: "Entry",
+                    mData: function(source){
+                        return source;
+                    },
+                    mRender: function(data){
+                        return (data.entry == 'debit') ? "Deposit":"Withdrawal";
+                    }
+                }, 
+                {
+                    title: "Description",
+                    mData: function(source){
+                        return source;
+                    },
+                    mRender: function(data){
+                        return `
+                        <div">
+                            <p>${data.description}</p>
+                        </div>
+                        `;
+                    }
+                }, 
+            ]
         }
     },
     mounted(){

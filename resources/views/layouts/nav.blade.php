@@ -6,13 +6,13 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-            <li class="nav-item {{ Request::is( 'home' ) ? ' active' : null }}" data-toggle="tooltip" data-placement="right" title="Dashboard"  >
+            <li class="nav-item {{ Request::is( 'home' ) ? ' active' : null }}" >
                 <a class="nav-link" href="{{ route('home') }}">
                     <i class="fa fa-fw fa-dashboard"></i>
                     <span class="nav-link-text">Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item  {{ Request::is( 'admin/manage/*' ) ? ' active' : null }}" data-toggle="tooltip" data-placement="right" title="Tables">
+            <li class="nav-item  {{ Request::is( 'admin/manage/*' ) ? ' active' : null }}">
                 <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#manage" data-parent="#exampleAccordion">
                     <i class="fa fa-fw fa-cog"></i>
                     <span class="nav-link-text">Manage</span>
@@ -32,7 +32,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item {{ Request::is('admin/sales/*') ? ' active' : null }}" data-toggle="tooltip" data-placement="right" title="Charts">
+            <li class="nav-item {{ Request::is('admin/sales/*') ? ' active' : null }}">
             <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#sales" data-parent="#exampleAccordion">
                     <i class="fa fa-fw fa-money"></i>
                     <span class="nav-link-text">Sales</span>
@@ -49,7 +49,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item {{ Request::is( 'admin/purchases/*' ) ? ' active' : null }}" data-toggle="tooltip" data-placement="right" title="Tables">
+            <li class="nav-item {{ Request::is( 'admin/purchases/*' ) ? ' active' : null }}">
                 <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#purchases" data-parent="#exampleAccordion">
                     <i class="fa fa-fw fa-shopping-cart"></i>
                     <span class="nav-link-text">Purchases</span>
@@ -63,7 +63,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item {{ Request::is( 'admin/accounting/*' ) ? ' active' : null }}" data-toggle="tooltip" data-placement="right" title="Components">
+            <li class="nav-item {{ Request::is( 'admin/accounting/*' ) ? ' active' : null }}">
                 <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
                     <i class="fa fa-fw fa-balance-scale"></i>
                     <span class="nav-link-text">Accounting</span>
@@ -80,7 +80,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item {{ Request::is( 'admin/reports/*' ) ? ' active' : null }}" data-toggle="tooltip" data-placement="right" title="Example Pages">
+            <li class="nav-item {{ Request::is( 'admin/reports/*' ) ? ' active' : null }}">
                 <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
                     <i class="fa fa-fw fa-bar-chart"></i>
                     <span class="nav-link-text">Reports</span>

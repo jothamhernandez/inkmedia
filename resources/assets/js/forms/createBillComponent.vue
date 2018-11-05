@@ -2,14 +2,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h3>Create Estimate</h3>
+                <h3>Create Bill</h3>
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="estimate_name">Estimate Name</label>
-                    <input type="text" class="form-control" placeholder="Estimate Name" v-model="form.estimate_name">
+                    <input type="text" class="form-control" placeholder="Bill Name" v-model="form.bill_name">
                 </div>
             </div>
         </div>
@@ -17,15 +17,11 @@
             <div class="col-md-4">
                 
                     <div class="form-group row ">
-                        <label for="" class="col-md-12 col-form-label">Customer</label>
+                        <label for="" class="col-md-12 col-form-label">Vendor</label>
                         <div class="col-md-12">
                             <select name="" id="" class="form-control" v-model="selectedCustomer" @change="setToBill">
-                                <option :value="customer" v-for="customer in customers" :key="customer.id">{{customer.name}}</option>
+                                <option :value="customer" v-for="customer in customers" :key="customer.id">{{customer.vendor_name}}</option>
                             </select>
-                        </div>
-                        <div class="col-md-12" v-if="selectedCustomer != null">
-                            <h4>Bill To:</h4>
-                            <p>{{selectedCustomer.name}}</p>
                         </div>
                     </div>
                 
@@ -142,7 +138,7 @@ export default {
             selectedCustomer: null,
             rowNumber: 1,
             form: {
-                estimate_name: 'Estimate',
+                bill_name: 'Bill',
                 toBill: null,
                 date_to_issued: null,
                 date_to_expire: null,
@@ -169,11 +165,11 @@ export default {
         }
     },
     mounted(){
-        axios('/api/v1/customer').then(r=>{
+        axios('/api/v1/vendor').then(r=>{
             this.customers = r.data;
         });
 
-        axios('/api/v1/items?category=sell').then(r=>{
+        axios('/api/v1/items?category=buy').then(r=>{
             this.items = r.data;
         })
     },
@@ -213,8 +209,8 @@ export default {
             return total;
         },
         saveEstimates(){
-            axios.post('/api/v1/estimates', this.form).then(r=>{
-                window.location.href = "/admin/sales/estimates";
+            axios.post('/api/v1/bills', this.form).then(r=>{
+                window.location.href = "/admin/purchases/bills";
             });
         },
         setToBill(){

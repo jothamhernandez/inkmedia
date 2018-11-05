@@ -53,7 +53,7 @@ export default {
     methods: {
         submit(){
             axios.post(this.form.url, this.newForm).then(r=>{
-                this.$emit('submit', r);
+                this.$emit('submit', r.data);
                 $("[data-dismiss=modal]").click()
             });
             

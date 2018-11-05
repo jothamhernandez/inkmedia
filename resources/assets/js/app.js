@@ -24,15 +24,27 @@ Vue.component('admin-coapage', require('./components/COAComponent.vue'));
 Vue.component('admin-itempage', require('./components/ItemPageComponent.vue'));
 Vue.component('admin-estimatepage', require('./components/EstimatePageComponent.vue'));
 Vue.component('admin-transaction',require('./components/TransactionPageComponent.vue'));
+Vue.component('admin-invoicespage', require('./components/InvoicesPageComponent.vue'));
+Vue.component('admin-addtransaction', require('./components/AddTransactionPageComponent.vue'));
+
+Vue.component('admin-billspage',require('./components/BillsPageComponent.vue'));
+
+Vue.component('admin-journal',require('./components/JournalPageComponent.vue'));
+
 
 // Forms
 Vue.component('admin-createestimate', require('./forms/createEstimateComponent.vue'));
-
+Vue.component('admin-createbill', require('./forms/createBillComponent.vue'));
 // Generic 
 Vue.component('add-modal', require('./components/generic/AddModalComponent.vue'));
+Vue.component('currency',require('./components/generic/CurrencyComponent.vue'));
+Vue.component('data-table', require('./components/generic/DataTableComponent.vue'));
+Vue.component('date-component',require('./components/generic/DateComponent.vue'));
 const app = new Vue({
     el: '#app'
 });
+
+
 window.clone = function(obj) {
     if (null == obj || "object" != typeof obj) return obj;
     var copy = obj.constructor();
@@ -40,4 +52,37 @@ window.clone = function(obj) {
         if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
     }
     return copy;
+}
+
+window.toCurrency = function(currency, price){
+    return currency + " " + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
+Array.prototype.sum = function(){
+    let total = 0;
+    this.forEach(e=>{
+        total += (e.price * e.quantity) + e.tax;
+    });
+    return total;
+}
+
+window.datefixed = function(date){
+    let months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ]
+    var dateParts = date.split("-");
+    var jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0,2));
+    return months[jsDate.getMonth()] + " " + jsDate.getDate() + ", " + jsDate.getFullYear();
 }

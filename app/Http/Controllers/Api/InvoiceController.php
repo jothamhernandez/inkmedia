@@ -4,30 +4,21 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Model\ProductItems;
+use App\Model\Invoices;
+use App\Model\Transactions;
 
-class ItemController extends Controller
+
+class InvoiceController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         //
-
-        $category = $request->query('category');
-
-        if($category == "buy"){
-            return response()->json(ProductItems::where('isBuyable',true)->get()); 
-        }
-
-        if($category == "sell"){
-            return response()->json(ProductItems::where('isSellable',true)->get()); 
-        }
-
-        return response()->json(ProductItems::all());
+        return response()->json(Invoices::all());
     }
 
     /**
@@ -39,9 +30,6 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         //
-        $item = ProductItems::create($request->all());
-        $item = ProductItems::find($item['id']);
-        return response()->json($item);
     }
 
     /**
@@ -53,8 +41,6 @@ class ItemController extends Controller
     public function show($id)
     {
         //
-        $item = ProductItems::find($id);
-        return response()->json($item);
     }
 
     /**
@@ -67,6 +53,30 @@ class ItemController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $status= $request->query('status');
+        $invoice = Invoices::find($id);
+        $invoice->status = $status;
+
+        $items = json_decode($invoice['items'], true);
+        $totalPrice = 0;
+        collect($items)->each(function($d) use(&$totalPrice){
+            $totalPrice += ($d['price'] * $d['quantity']) + $d['tax'];
+        });
+
+
+        if($status == 'paid'){
+            $transaction = new Transactions();
+            $transaction['account'] = "Sales";
+            $transaction['account_code'] = "SALE";
+            $transaction['description'] = "Payment on " . $invoice['estimate_name'] . " with invoice id#" . $invoice['id'];
+            $transaction['price'] = $totalPrice;
+            $transaction['entry'] = 'debit';
+            $transaction['status'] = 'approved';
+            $transaction->save();
+        }
+        // dd($transaction);
+        $invoice->save();
+        return response()->json($invoice);
     }
 
     /**
@@ -78,8 +88,5 @@ class ItemController extends Controller
     public function destroy($id)
     {
         //
-        $item = ProductItems::find($id);
-        $item->delete();
-        return response()->json($item);
     }
 }

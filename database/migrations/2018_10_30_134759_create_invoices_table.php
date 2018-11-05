@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEstimatesTable extends Migration
+class CreateInvoicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateEstimatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('estimates', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->string('estimate_name');
             $table->integer('customer_id')->unsigned();
@@ -23,10 +23,11 @@ class CreateEstimatesTable extends Migration
             $table->string('subheading')->nullable();
             $table->string('footer')->nullable();
             $table->string('memo')->nullable();
-            $table->enum('status',['saved','expired','paid','accepted']);
-            $table->timestamps();
+            $table->enum('status',['saved','expired','paid','canceled']);
+            $table->text('items');
 
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -37,6 +38,6 @@ class CreateEstimatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estimates');
+        Schema::dropIfExists('invoices');
     }
 }

@@ -124,44 +124,38 @@ export default {
     mounted(){
 
         $(document).ready(function(){
-            Morris.Line({
-            // ID of the element in which to draw the chart.
-                element: 'cashflow',
-                // Chart data records -- each entry in this array corresponds to a point on
-                // the chart.
-                data: [
-                    { year: '2008', value: 20 },
-                    { year: '2009', value: 10 },
-                    { year: '2010', value: 5 },
-                    { year: '2011', value: 5 },
-                    { year: '2012', value: 20 }
-                ],
-                // The name of the data record attribute that contains x-values.
-                xkey: 'year',
-                // A list of names of data record attributes that contain y-values.
-                ykeys: ['value'],
-                // Labels for the ykeys -- will be displayed when you hover over the
-                // chart.
-                labels: ['Value']
+            
+            axios.get('/api/v1/report?mode=cashflow&term=monthly').then(r=>{
+                Morris.Line({
+                // ID of the element in which to draw the chart.
+                    element: 'cashflow',
+                    // Chart data records -- each entry in this array corresponds to a point on
+                    // the chart.
+                    data: r.data,
+                    // The name of the data record attribute that contains x-values.
+                    xkey: 'Period',
+                    // A list of names of data record attributes that contain y-values.
+                    ykeys: ['Total'],
+                    // Labels for the ykeys -- will be displayed when you hover over the
+                    // chart.
+                    labels: ['Value']
+                });
+
             });
 
-            Morris.Bar({
-                element: 'profitloss',
-                data: [
-                {device: 'iPhone', geekbench: 136},
-                {device: 'iPhone 3G', geekbench: 137},
-                {device: 'iPhone 3GS', geekbench: 275},
-                {device: 'iPhone 4', geekbench: 380},
-                {device: 'iPhone 4S', geekbench: 655},
-                {device: 'iPhone 5', geekbench: 1571}
-                ],
-                xkey: 'device',
-                ykeys: ['geekbench'],
-                labels: ['Geekbench'],
-                barRatio: 0.4,
-                xLabelAngle: 35,
-                hideHover: 'auto'
-            });
+            axios.get('/api/v1/report?mode=pnl').then(r=>{
+                 Morris.Bar({
+                    element: 'profitloss',
+                    data: r.data,
+                    xkey: 'Month',
+                    ykeys: ['Debit','Credit'],
+                    labels: ['Debit','Credit'],
+                    barColors: ['#00a918','#cb0000'],
+                    barRatio: 0.4,
+                    xLabelAngle: 35,
+                    hideHover: 'auto'
+                });
+            })
         })
         
     }

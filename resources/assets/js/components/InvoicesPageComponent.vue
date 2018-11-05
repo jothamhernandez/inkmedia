@@ -2,12 +2,12 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="float-left">Estimates</h1>
-                <a href="/admin/sales/estimates/create" class="btn btn-primary float-right"><i class='fa fa-plus'></i> Create an Estimate</a>
+                <h1 class="float-left">Invoices</h1>
+                <!-- <a href="/admin/sales/estimates/create" class="btn btn-primary float-right"><i class='fa fa-plus'></i> Create an Estimate</a> -->
             </div>
         </div>
         <div class="row">
-            <data-table url="/api/v1/estimates" :data="record" :columns="columns" v-on:remove="removeEstimate" v-on:invoice="convertToInvoice"></data-table>
+            <data-table url="/api/v1/invoice" :data="record" :columns="columns" v-on:pay-invoice="payInvoice" v-on:cancel-invoice="cancelInvoice"></data-table>
         </div>
     </div>
 </template>
@@ -45,7 +45,8 @@ export default {
                         items: 'items',
                     },
                     mRender: function(data){
-                        return toCurrency("Php", data.items.sum());
+                        
+                        return toCurrency("Php", JSON.parse(data.items).sum());
                     }
                 },
                 {
@@ -54,13 +55,12 @@ export default {
                         return source;
                     },
                     mRender: function(data){
-                        if(data.status == 'saved'){
 
+                        if(data.status == 'saved'){
                         return `
-                            <button class="btn btn-link" @click="testing"><i class="fa fa-pencil"></i></button>
-                            <button class="btn btn-link" data-action='remove' data-id="${data.id}"><i class="fa fa-trash"></i></button>
-                            <button class="btn btn-link" data-action='to-invoice' data-id="${data.id}">convert to invoice</button>
-                            `
+                            <button class="btn btn-link" data-toggle="tooltip" data-placement="top" title="pay" data-action="pay-invoice" data-id="${data.id}"><i class="fa fa-money"></i></button>
+                            <button class="btn btn-link"  data-toggle="tooltip" data-placement="top" title="cancel" data-action='cancel-invoice' data-id="${data.id}"><i class="fa fa-times" label="cancel"></i></button>
+                            `;
                         }
                         return ""
                     }
@@ -69,18 +69,19 @@ export default {
         }
     },
     mounted(){
-
-        axios('/api/v1/estimates').then(r=>{
+        axios('/api/v1/invoice').then(r=>{
             this.record = r.data;
+
         });
+        
+        
     },
-    methods:{
-        removeEstimate(e){
-            this.record.splice(this.record.indexOf(e), 1);
+    methods: {
+        payInvoice(r){
+            r.status = "paid";
         },
-        convertToInvoice(e){
-            e.status = "accepted";
-            // this.record.splice(this.record.indexOf(e), 1);
+        cancelInvoice(r){
+            r.status = "cancelled";
         }
     }
 }

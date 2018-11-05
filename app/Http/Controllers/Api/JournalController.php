@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Transactions;
 use App\Model\AccountingJournal;
 
-class TransactionController extends Controller
+class JournalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class TransactionController extends Controller
     public function index()
     {
         //
-        return response()->json(Transactions::all());
+        return response()->json(AccountingJournal::all());
     }
 
     /**
@@ -29,7 +29,13 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         //
-        
+        $transactions = collect($request['transactions'])->toArray();
+        unset($request['transactions']);
+        $journal = AccountingJournal::create($request->all());
+        collect($transactions)->each(function($transaction) use($journal){
+            $transaction['journal_id'] = $journal->id;
+            Transactions::create($transaction);
+        });
     }
 
     /**
@@ -53,6 +59,21 @@ class TransactionController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $transactions = collect($request['transactions'])->toArray();
+        unset($request['transactions']);
+        $journal = AccountingJournal::find($id);
+        $journal->update($request->all());
+        collect($transactions)->each(function($transaction) use ($journal){
+            unset($transaction['id']);
+            $t = Transactions::where($transaction)->first();
+            if($t == []){
+                $transaction['journal_id'] = $journal->id;
+                Transactions::create($transaction);
+            } else {
+                $t->update($transaction);
+            }
+            
+        });
     }
 
     /**

@@ -60,10 +60,555 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 89);
+/******/ 	return __webpack_require__(__webpack_require__.s = 114);
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ 114:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(115);
+
+
+/***/ }),
+
+/***/ 115:
+/***/ (function(module, exports, __webpack_require__) {
+
+// metisMenu
+__webpack_require__(116);
+
+// theme
+__webpack_require__(117);
+
+// frontend
+__webpack_require__(118);
+
+/***/ }),
+
+/***/ 116:
+/***/ (function(module, exports, __webpack_require__) {
+
+/*!
+* metismenu - v2.7.9
+* A jQuery menu plugin
+* https://github.com/onokumus/metismenu#readme
+*
+* Made by Osman Nuri Okumus <onokumus@gmail.com> (https://github.com/onokumus)
+* Under MIT License
+*/
+(function (global, factory) {
+   true ? module.exports = factory(__webpack_require__(5)) :
+  typeof define === 'function' && define.amd ? define(['jquery'], factory) :
+  (global.metisMenu = factory(global.jQuery));
+}(this, (function ($) { 'use strict';
+
+  $ = $ && $.hasOwnProperty('default') ? $['default'] : $;
+
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  }
+
+  function _objectSpread(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+      var ownKeys = Object.keys(source);
+
+      if (typeof Object.getOwnPropertySymbols === 'function') {
+        ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+          return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+        }));
+      }
+
+      ownKeys.forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    }
+
+    return target;
+  }
+
+  var Util = function ($$$1) {
+    // eslint-disable-line no-shadow
+    var TRANSITION_END = 'transitionend';
+    var Util = {
+      // eslint-disable-line no-shadow
+      TRANSITION_END: 'mmTransitionEnd',
+      triggerTransitionEnd: function triggerTransitionEnd(element) {
+        $$$1(element).trigger(TRANSITION_END);
+      },
+      supportsTransitionEnd: function supportsTransitionEnd() {
+        return Boolean(TRANSITION_END);
+      }
+    };
+
+    function getSpecialTransitionEndEvent() {
+      return {
+        bindType: TRANSITION_END,
+        delegateType: TRANSITION_END,
+        handle: function handle(event) {
+          if ($$$1(event.target).is(this)) {
+            return event.handleObj.handler.apply(this, arguments); // eslint-disable-line prefer-rest-params
+          }
+
+          return undefined;
+        }
+      };
+    }
+
+    function transitionEndEmulator(duration) {
+      var _this = this;
+
+      var called = false;
+      $$$1(this).one(Util.TRANSITION_END, function () {
+        called = true;
+      });
+      setTimeout(function () {
+        if (!called) {
+          Util.triggerTransitionEnd(_this);
+        }
+      }, duration);
+      return this;
+    }
+
+    function setTransitionEndSupport() {
+      $$$1.fn.mmEmulateTransitionEnd = transitionEndEmulator; // eslint-disable-line no-param-reassign
+      // eslint-disable-next-line no-param-reassign
+
+      $$$1.event.special[Util.TRANSITION_END] = getSpecialTransitionEndEvent();
+    }
+
+    setTransitionEndSupport();
+    return Util;
+  }($);
+
+  var MetisMenu = function ($$$1) {
+    // eslint-disable-line no-shadow
+    var NAME = 'metisMenu';
+    var DATA_KEY = 'metisMenu';
+    var EVENT_KEY = "." + DATA_KEY;
+    var DATA_API_KEY = '.data-api';
+    var JQUERY_NO_CONFLICT = $$$1.fn[NAME];
+    var TRANSITION_DURATION = 350;
+    var Default = {
+      toggle: true,
+      preventDefault: true,
+      activeClass: 'active',
+      collapseClass: 'collapse',
+      collapseInClass: 'in',
+      collapsingClass: 'collapsing',
+      triggerElement: 'a',
+      parentTrigger: 'li',
+      subMenu: 'ul'
+    };
+    var Event = {
+      SHOW: "show" + EVENT_KEY,
+      SHOWN: "shown" + EVENT_KEY,
+      HIDE: "hide" + EVENT_KEY,
+      HIDDEN: "hidden" + EVENT_KEY,
+      CLICK_DATA_API: "click" + EVENT_KEY + DATA_API_KEY
+    };
+
+    var MetisMenu =
+    /*#__PURE__*/
+    function () {
+      // eslint-disable-line no-shadow
+      function MetisMenu(element, config) {
+        this.element = element;
+        this.config = _objectSpread({}, Default, config);
+        this.transitioning = null;
+        this.init();
+      }
+
+      var _proto = MetisMenu.prototype;
+
+      _proto.init = function init() {
+        var self = this;
+        var conf = this.config;
+        $$$1(this.element).find(conf.parentTrigger + "." + conf.activeClass).has(conf.subMenu).children(conf.subMenu).addClass(conf.collapseClass + " " + conf.collapseInClass);
+        $$$1(this.element).find(conf.parentTrigger).not("." + conf.activeClass).has(conf.subMenu).children(conf.subMenu).addClass(conf.collapseClass);
+        $$$1(this.element).find(conf.parentTrigger).has(conf.subMenu).children(conf.triggerElement).on(Event.CLICK_DATA_API, function (e) {
+          // eslint-disable-line func-names
+          var eTar = $$$1(this);
+          var paRent = eTar.parent(conf.parentTrigger);
+          var sibLings = paRent.siblings(conf.parentTrigger).children(conf.triggerElement);
+          var List = paRent.children(conf.subMenu);
+
+          if (conf.preventDefault) {
+            e.preventDefault();
+          }
+
+          if (eTar.attr('aria-disabled') === 'true') {
+            return;
+          }
+
+          if (paRent.hasClass(conf.activeClass)) {
+            eTar.attr('aria-expanded', false);
+            self.hide(List);
+          } else {
+            self.show(List);
+            eTar.attr('aria-expanded', true);
+
+            if (conf.toggle) {
+              sibLings.attr('aria-expanded', false);
+            }
+          }
+
+          if (conf.onTransitionStart) {
+            conf.onTransitionStart(e);
+          }
+        });
+      };
+
+      _proto.show = function show(element) {
+        var _this = this;
+
+        if (this.transitioning || $$$1(element).hasClass(this.config.collapsingClass)) {
+          return;
+        }
+
+        var elem = $$$1(element);
+        var startEvent = $$$1.Event(Event.SHOW);
+        elem.trigger(startEvent);
+
+        if (startEvent.isDefaultPrevented()) {
+          return;
+        }
+
+        elem.parent(this.config.parentTrigger).addClass(this.config.activeClass);
+
+        if (this.config.toggle) {
+          this.hide(elem.parent(this.config.parentTrigger).siblings().children(this.config.subMenu + "." + this.config.collapseInClass));
+        }
+
+        elem.removeClass(this.config.collapseClass).addClass(this.config.collapsingClass).height(0);
+        this.setTransitioning(true);
+
+        var complete = function complete() {
+          // check if disposed
+          if (!_this.config || !_this.element) {
+            return;
+          }
+
+          elem.removeClass(_this.config.collapsingClass).addClass(_this.config.collapseClass + " " + _this.config.collapseInClass).height('');
+
+          _this.setTransitioning(false);
+
+          elem.trigger(Event.SHOWN);
+        };
+
+        elem.height(element[0].scrollHeight).one(Util.TRANSITION_END, complete).mmEmulateTransitionEnd(TRANSITION_DURATION);
+      };
+
+      _proto.hide = function hide(element) {
+        var _this2 = this;
+
+        if (this.transitioning || !$$$1(element).hasClass(this.config.collapseInClass)) {
+          return;
+        }
+
+        var elem = $$$1(element);
+        var startEvent = $$$1.Event(Event.HIDE);
+        elem.trigger(startEvent);
+
+        if (startEvent.isDefaultPrevented()) {
+          return;
+        }
+
+        elem.parent(this.config.parentTrigger).removeClass(this.config.activeClass); // eslint-disable-next-line no-unused-expressions
+
+        elem.height(elem.height())[0].offsetHeight;
+        elem.addClass(this.config.collapsingClass).removeClass(this.config.collapseClass).removeClass(this.config.collapseInClass);
+        this.setTransitioning(true);
+
+        var complete = function complete() {
+          // check if disposed
+          if (!_this2.config || !_this2.element) {
+            return;
+          }
+
+          if (_this2.transitioning && _this2.config.onTransitionEnd) {
+            _this2.config.onTransitionEnd();
+          }
+
+          _this2.setTransitioning(false);
+
+          elem.trigger(Event.HIDDEN);
+          elem.removeClass(_this2.config.collapsingClass).addClass(_this2.config.collapseClass);
+        };
+
+        if (elem.height() === 0 || elem.css('display') === 'none') {
+          complete();
+        } else {
+          elem.height(0).one(Util.TRANSITION_END, complete).mmEmulateTransitionEnd(TRANSITION_DURATION);
+        }
+      };
+
+      _proto.setTransitioning = function setTransitioning(isTransitioning) {
+        this.transitioning = isTransitioning;
+      };
+
+      _proto.dispose = function dispose() {
+        $$$1.removeData(this.element, DATA_KEY);
+        $$$1(this.element).find(this.config.parentTrigger).has(this.config.subMenu).children(this.config.triggerElement).off('click');
+        this.transitioning = null;
+        this.config = null;
+        this.element = null;
+      };
+
+      MetisMenu.jQueryInterface = function jQueryInterface(config) {
+        // eslint-disable-next-line func-names
+        return this.each(function () {
+          var $this = $$$1(this);
+          var data = $this.data(DATA_KEY);
+
+          var conf = _objectSpread({}, Default, $this.data(), typeof config === 'object' && config ? config : {});
+
+          if (!data && /dispose/.test(config)) {
+            this.dispose();
+          }
+
+          if (!data) {
+            data = new MetisMenu(this, conf);
+            $this.data(DATA_KEY, data);
+          }
+
+          if (typeof config === 'string') {
+            if (data[config] === undefined) {
+              throw new Error("No method named \"" + config + "\"");
+            }
+
+            data[config]();
+          }
+        });
+      };
+
+      return MetisMenu;
+    }();
+    /**
+     * ------------------------------------------------------------------------
+     * jQuery
+     * ------------------------------------------------------------------------
+     */
+
+
+    $$$1.fn[NAME] = MetisMenu.jQueryInterface; // eslint-disable-line no-param-reassign
+
+    $$$1.fn[NAME].Constructor = MetisMenu; // eslint-disable-line no-param-reassign
+
+    $$$1.fn[NAME].noConflict = function () {
+      // eslint-disable-line no-param-reassign
+      $$$1.fn[NAME] = JQUERY_NO_CONFLICT; // eslint-disable-line no-param-reassign
+
+      return MetisMenu.jQueryInterface;
+    };
+
+    return MetisMenu;
+  }($);
+
+  return MetisMenu;
+
+})));
+//# sourceMappingURL=metisMenu.js.map
+
+
+/***/ }),
+
+/***/ 117:
+/***/ (function(module, exports) {
+
+$(function () {
+
+    $('#side-menu').metisMenu();
+});
+
+//Loads the correct sidebar on window load,
+//collapses the sidebar on window resize.
+// Sets the min-height of #page-wrapper to window size
+$(function () {
+    $(window).bind("load resize", function () {
+        topOffset = 50;
+        width = this.window.innerWidth > 0 ? this.window.innerWidth : this.screen.width;
+        if (width < 768) {
+            $('div.navbar-collapse').addClass('collapse');
+            topOffset = 100; // 2-row-menu
+        } else {
+            $('div.navbar-collapse').removeClass('collapse');
+        }
+
+        height = (this.window.innerHeight > 0 ? this.window.innerHeight : this.screen.height) - 1;
+        height = height - topOffset;
+        if (height < 1) height = 1;
+        if (height > topOffset) {
+            $("#page-wrapper").css("min-height", height + "px");
+        }
+    });
+
+    var url = window.location;
+    var element = $('ul.nav a').filter(function () {
+        return this.href === url || url.href.indexOf(this.href) === 0;
+    }).addClass('active').parent().parent().addClass('in').parent();
+    if (element.is('li')) {
+        element.addClass('active');
+    }
+});
+
+/***/ }),
+
+/***/ 118:
+/***/ (function(module, exports) {
+
+var lineChartData = {
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [{
+        label: "My First dataset",
+        fillColor: "rgba(220,220,220,0.2)",
+        strokeColor: "rgba(220,220,220,1)",
+        pointColor: "rgba(220,220,220,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(6, 197, 172, 1)",
+        data: [65, 59, 80, 81, 56, 55, 40]
+    }, {
+        label: "My Second dataset",
+        fillColor: "rgba(151,187,205,0.2)",
+        strokeColor: "rgba(151,187,205,1)",
+        pointColor: "rgba(151,187,205,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(244, 204, 11, 1)",
+        data: [28, 48, 40, 19, 86, 27, 90]
+    }]
+
+};
+
+var cline = document.getElementById("cline").getContext("2d");
+new Chart(cline).Line(lineChartData, {
+    responsive: true
+});
+
+var pdata = [{
+    value: 300,
+    color: "#F7464A",
+    highlight: "#FF5A5E",
+    label: "Red"
+}, {
+    value: 50,
+    color: "#46BFBD",
+    highlight: "#5AD3D1",
+    label: "Green"
+}, {
+    value: 100,
+    color: "#FDB45C",
+    highlight: "#FFC870",
+    label: "Yellow"
+}];
+var cpie = document.getElementById("cpie").getContext("2d");
+new Chart(cpie).Pie(pdata, { responsive: true });
+
+var ddata = [{
+    value: 50,
+    color: "#F7464A",
+    highlight: "#FF5A5E",
+    label: "Red"
+}, {
+    value: 300,
+    color: "#46BFBD",
+    highlight: "#5AD3D1",
+    label: "Green"
+}, {
+    value: 160,
+    color: "#FDB45C",
+    highlight: "#FFC870",
+    label: "Yellow"
+}];
+var cdonut = document.getElementById("cdonut").getContext("2d");
+new Chart(cdonut).Doughnut(ddata, { responsive: true });
+
+var bdata = {
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [{
+        fillColor: "rgba(220,220,220,0.5)",
+        strokeColor: "rgba(220,220,220,0.8)",
+        highlightFill: "rgba(220,220,220,0.75)",
+        highlightStroke: "rgba(220,220,220,1)",
+        data: [130, 160, 95, 205, 170, 135, 200]
+    }, {
+        fillColor: "rgba(151,187,205,0.5)",
+        strokeColor: "rgba(151,187,205,0.8)",
+        highlightFill: "rgba(151,187,205,0.75)",
+        highlightStroke: "rgba(151,187,205,1)",
+        data: [85, 90, 160, 145, 180, 130, 195]
+    }]
+
+};
+var cbar = document.getElementById("cbar").getContext("2d");
+new Chart(cbar).Bar(bdata, {
+    responsive: true
+});
+
+var podata = [{
+    value: 300,
+    color: "#F7464A",
+    highlight: "#FF5A5E",
+    label: "Red"
+}, {
+    value: 50,
+    color: "#46BFBD",
+    highlight: "#5AD3D1",
+    label: "Green"
+}, {
+    value: 100,
+    color: "#FDB45C",
+    highlight: "#FFC870",
+    label: "Yellow"
+}, {
+    value: 40,
+    color: "#949FB1",
+    highlight: "#A8B3C5",
+    label: "Grey"
+}, {
+    value: 120,
+    color: "#4D5360",
+    highlight: "#616774",
+    label: "Dark Grey"
+}];
+
+var cpolar = document.getElementById("cpolar").getContext("2d");
+new Chart(cpolar).PolarArea(podata, { responsive: true });
+
+var ddata1 = [{
+    value: 50,
+    color: "#F7464A",
+    highlight: "#FF5A5E",
+    label: "Red"
+}, {
+    value: 300,
+    color: "#46BFBD",
+    highlight: "#5AD3D1",
+    label: "Green"
+}, {
+    value: 160,
+    color: "#FDB45C",
+    highlight: "#FFC870",
+    label: "Yellow"
+}];
+var cdonut1 = document.getElementById("cdonut1").getContext("2d");
+new Chart(cdonut1).Doughnut(ddata1, { responsive: true });
+
+/***/ }),
 
 /***/ 5:
 /***/ (function(module, exports, __webpack_require__) {
@@ -10434,551 +10979,6 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-
-/***/ }),
-
-/***/ 89:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(90);
-
-
-/***/ }),
-
-/***/ 90:
-/***/ (function(module, exports, __webpack_require__) {
-
-// metisMenu
-__webpack_require__(91);
-
-// theme
-__webpack_require__(92);
-
-// frontend
-__webpack_require__(93);
-
-/***/ }),
-
-/***/ 91:
-/***/ (function(module, exports, __webpack_require__) {
-
-/*!
-* metismenu - v2.7.9
-* A jQuery menu plugin
-* https://github.com/onokumus/metismenu#readme
-*
-* Made by Osman Nuri Okumus <onokumus@gmail.com> (https://github.com/onokumus)
-* Under MIT License
-*/
-(function (global, factory) {
-   true ? module.exports = factory(__webpack_require__(5)) :
-  typeof define === 'function' && define.amd ? define(['jquery'], factory) :
-  (global.metisMenu = factory(global.jQuery));
-}(this, (function ($) { 'use strict';
-
-  $ = $ && $.hasOwnProperty('default') ? $['default'] : $;
-
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: true,
-        configurable: true,
-        writable: true
-      });
-    } else {
-      obj[key] = value;
-    }
-
-    return obj;
-  }
-
-  function _objectSpread(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i] != null ? arguments[i] : {};
-      var ownKeys = Object.keys(source);
-
-      if (typeof Object.getOwnPropertySymbols === 'function') {
-        ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-          return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-        }));
-      }
-
-      ownKeys.forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    }
-
-    return target;
-  }
-
-  var Util = function ($$$1) {
-    // eslint-disable-line no-shadow
-    var TRANSITION_END = 'transitionend';
-    var Util = {
-      // eslint-disable-line no-shadow
-      TRANSITION_END: 'mmTransitionEnd',
-      triggerTransitionEnd: function triggerTransitionEnd(element) {
-        $$$1(element).trigger(TRANSITION_END);
-      },
-      supportsTransitionEnd: function supportsTransitionEnd() {
-        return Boolean(TRANSITION_END);
-      }
-    };
-
-    function getSpecialTransitionEndEvent() {
-      return {
-        bindType: TRANSITION_END,
-        delegateType: TRANSITION_END,
-        handle: function handle(event) {
-          if ($$$1(event.target).is(this)) {
-            return event.handleObj.handler.apply(this, arguments); // eslint-disable-line prefer-rest-params
-          }
-
-          return undefined;
-        }
-      };
-    }
-
-    function transitionEndEmulator(duration) {
-      var _this = this;
-
-      var called = false;
-      $$$1(this).one(Util.TRANSITION_END, function () {
-        called = true;
-      });
-      setTimeout(function () {
-        if (!called) {
-          Util.triggerTransitionEnd(_this);
-        }
-      }, duration);
-      return this;
-    }
-
-    function setTransitionEndSupport() {
-      $$$1.fn.mmEmulateTransitionEnd = transitionEndEmulator; // eslint-disable-line no-param-reassign
-      // eslint-disable-next-line no-param-reassign
-
-      $$$1.event.special[Util.TRANSITION_END] = getSpecialTransitionEndEvent();
-    }
-
-    setTransitionEndSupport();
-    return Util;
-  }($);
-
-  var MetisMenu = function ($$$1) {
-    // eslint-disable-line no-shadow
-    var NAME = 'metisMenu';
-    var DATA_KEY = 'metisMenu';
-    var EVENT_KEY = "." + DATA_KEY;
-    var DATA_API_KEY = '.data-api';
-    var JQUERY_NO_CONFLICT = $$$1.fn[NAME];
-    var TRANSITION_DURATION = 350;
-    var Default = {
-      toggle: true,
-      preventDefault: true,
-      activeClass: 'active',
-      collapseClass: 'collapse',
-      collapseInClass: 'in',
-      collapsingClass: 'collapsing',
-      triggerElement: 'a',
-      parentTrigger: 'li',
-      subMenu: 'ul'
-    };
-    var Event = {
-      SHOW: "show" + EVENT_KEY,
-      SHOWN: "shown" + EVENT_KEY,
-      HIDE: "hide" + EVENT_KEY,
-      HIDDEN: "hidden" + EVENT_KEY,
-      CLICK_DATA_API: "click" + EVENT_KEY + DATA_API_KEY
-    };
-
-    var MetisMenu =
-    /*#__PURE__*/
-    function () {
-      // eslint-disable-line no-shadow
-      function MetisMenu(element, config) {
-        this.element = element;
-        this.config = _objectSpread({}, Default, config);
-        this.transitioning = null;
-        this.init();
-      }
-
-      var _proto = MetisMenu.prototype;
-
-      _proto.init = function init() {
-        var self = this;
-        var conf = this.config;
-        $$$1(this.element).find(conf.parentTrigger + "." + conf.activeClass).has(conf.subMenu).children(conf.subMenu).addClass(conf.collapseClass + " " + conf.collapseInClass);
-        $$$1(this.element).find(conf.parentTrigger).not("." + conf.activeClass).has(conf.subMenu).children(conf.subMenu).addClass(conf.collapseClass);
-        $$$1(this.element).find(conf.parentTrigger).has(conf.subMenu).children(conf.triggerElement).on(Event.CLICK_DATA_API, function (e) {
-          // eslint-disable-line func-names
-          var eTar = $$$1(this);
-          var paRent = eTar.parent(conf.parentTrigger);
-          var sibLings = paRent.siblings(conf.parentTrigger).children(conf.triggerElement);
-          var List = paRent.children(conf.subMenu);
-
-          if (conf.preventDefault) {
-            e.preventDefault();
-          }
-
-          if (eTar.attr('aria-disabled') === 'true') {
-            return;
-          }
-
-          if (paRent.hasClass(conf.activeClass)) {
-            eTar.attr('aria-expanded', false);
-            self.hide(List);
-          } else {
-            self.show(List);
-            eTar.attr('aria-expanded', true);
-
-            if (conf.toggle) {
-              sibLings.attr('aria-expanded', false);
-            }
-          }
-
-          if (conf.onTransitionStart) {
-            conf.onTransitionStart(e);
-          }
-        });
-      };
-
-      _proto.show = function show(element) {
-        var _this = this;
-
-        if (this.transitioning || $$$1(element).hasClass(this.config.collapsingClass)) {
-          return;
-        }
-
-        var elem = $$$1(element);
-        var startEvent = $$$1.Event(Event.SHOW);
-        elem.trigger(startEvent);
-
-        if (startEvent.isDefaultPrevented()) {
-          return;
-        }
-
-        elem.parent(this.config.parentTrigger).addClass(this.config.activeClass);
-
-        if (this.config.toggle) {
-          this.hide(elem.parent(this.config.parentTrigger).siblings().children(this.config.subMenu + "." + this.config.collapseInClass));
-        }
-
-        elem.removeClass(this.config.collapseClass).addClass(this.config.collapsingClass).height(0);
-        this.setTransitioning(true);
-
-        var complete = function complete() {
-          // check if disposed
-          if (!_this.config || !_this.element) {
-            return;
-          }
-
-          elem.removeClass(_this.config.collapsingClass).addClass(_this.config.collapseClass + " " + _this.config.collapseInClass).height('');
-
-          _this.setTransitioning(false);
-
-          elem.trigger(Event.SHOWN);
-        };
-
-        elem.height(element[0].scrollHeight).one(Util.TRANSITION_END, complete).mmEmulateTransitionEnd(TRANSITION_DURATION);
-      };
-
-      _proto.hide = function hide(element) {
-        var _this2 = this;
-
-        if (this.transitioning || !$$$1(element).hasClass(this.config.collapseInClass)) {
-          return;
-        }
-
-        var elem = $$$1(element);
-        var startEvent = $$$1.Event(Event.HIDE);
-        elem.trigger(startEvent);
-
-        if (startEvent.isDefaultPrevented()) {
-          return;
-        }
-
-        elem.parent(this.config.parentTrigger).removeClass(this.config.activeClass); // eslint-disable-next-line no-unused-expressions
-
-        elem.height(elem.height())[0].offsetHeight;
-        elem.addClass(this.config.collapsingClass).removeClass(this.config.collapseClass).removeClass(this.config.collapseInClass);
-        this.setTransitioning(true);
-
-        var complete = function complete() {
-          // check if disposed
-          if (!_this2.config || !_this2.element) {
-            return;
-          }
-
-          if (_this2.transitioning && _this2.config.onTransitionEnd) {
-            _this2.config.onTransitionEnd();
-          }
-
-          _this2.setTransitioning(false);
-
-          elem.trigger(Event.HIDDEN);
-          elem.removeClass(_this2.config.collapsingClass).addClass(_this2.config.collapseClass);
-        };
-
-        if (elem.height() === 0 || elem.css('display') === 'none') {
-          complete();
-        } else {
-          elem.height(0).one(Util.TRANSITION_END, complete).mmEmulateTransitionEnd(TRANSITION_DURATION);
-        }
-      };
-
-      _proto.setTransitioning = function setTransitioning(isTransitioning) {
-        this.transitioning = isTransitioning;
-      };
-
-      _proto.dispose = function dispose() {
-        $$$1.removeData(this.element, DATA_KEY);
-        $$$1(this.element).find(this.config.parentTrigger).has(this.config.subMenu).children(this.config.triggerElement).off('click');
-        this.transitioning = null;
-        this.config = null;
-        this.element = null;
-      };
-
-      MetisMenu.jQueryInterface = function jQueryInterface(config) {
-        // eslint-disable-next-line func-names
-        return this.each(function () {
-          var $this = $$$1(this);
-          var data = $this.data(DATA_KEY);
-
-          var conf = _objectSpread({}, Default, $this.data(), typeof config === 'object' && config ? config : {});
-
-          if (!data && /dispose/.test(config)) {
-            this.dispose();
-          }
-
-          if (!data) {
-            data = new MetisMenu(this, conf);
-            $this.data(DATA_KEY, data);
-          }
-
-          if (typeof config === 'string') {
-            if (data[config] === undefined) {
-              throw new Error("No method named \"" + config + "\"");
-            }
-
-            data[config]();
-          }
-        });
-      };
-
-      return MetisMenu;
-    }();
-    /**
-     * ------------------------------------------------------------------------
-     * jQuery
-     * ------------------------------------------------------------------------
-     */
-
-
-    $$$1.fn[NAME] = MetisMenu.jQueryInterface; // eslint-disable-line no-param-reassign
-
-    $$$1.fn[NAME].Constructor = MetisMenu; // eslint-disable-line no-param-reassign
-
-    $$$1.fn[NAME].noConflict = function () {
-      // eslint-disable-line no-param-reassign
-      $$$1.fn[NAME] = JQUERY_NO_CONFLICT; // eslint-disable-line no-param-reassign
-
-      return MetisMenu.jQueryInterface;
-    };
-
-    return MetisMenu;
-  }($);
-
-  return MetisMenu;
-
-})));
-//# sourceMappingURL=metisMenu.js.map
-
-
-/***/ }),
-
-/***/ 92:
-/***/ (function(module, exports) {
-
-$(function () {
-
-    $('#side-menu').metisMenu();
-});
-
-//Loads the correct sidebar on window load,
-//collapses the sidebar on window resize.
-// Sets the min-height of #page-wrapper to window size
-$(function () {
-    $(window).bind("load resize", function () {
-        topOffset = 50;
-        width = this.window.innerWidth > 0 ? this.window.innerWidth : this.screen.width;
-        if (width < 768) {
-            $('div.navbar-collapse').addClass('collapse');
-            topOffset = 100; // 2-row-menu
-        } else {
-            $('div.navbar-collapse').removeClass('collapse');
-        }
-
-        height = (this.window.innerHeight > 0 ? this.window.innerHeight : this.screen.height) - 1;
-        height = height - topOffset;
-        if (height < 1) height = 1;
-        if (height > topOffset) {
-            $("#page-wrapper").css("min-height", height + "px");
-        }
-    });
-
-    var url = window.location;
-    var element = $('ul.nav a').filter(function () {
-        return this.href === url || url.href.indexOf(this.href) === 0;
-    }).addClass('active').parent().parent().addClass('in').parent();
-    if (element.is('li')) {
-        element.addClass('active');
-    }
-});
-
-/***/ }),
-
-/***/ 93:
-/***/ (function(module, exports) {
-
-var lineChartData = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
-    datasets: [{
-        label: "My First dataset",
-        fillColor: "rgba(220,220,220,0.2)",
-        strokeColor: "rgba(220,220,220,1)",
-        pointColor: "rgba(220,220,220,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(6, 197, 172, 1)",
-        data: [65, 59, 80, 81, 56, 55, 40]
-    }, {
-        label: "My Second dataset",
-        fillColor: "rgba(151,187,205,0.2)",
-        strokeColor: "rgba(151,187,205,1)",
-        pointColor: "rgba(151,187,205,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(244, 204, 11, 1)",
-        data: [28, 48, 40, 19, 86, 27, 90]
-    }]
-
-};
-
-var cline = document.getElementById("cline").getContext("2d");
-new Chart(cline).Line(lineChartData, {
-    responsive: true
-});
-
-var pdata = [{
-    value: 300,
-    color: "#F7464A",
-    highlight: "#FF5A5E",
-    label: "Red"
-}, {
-    value: 50,
-    color: "#46BFBD",
-    highlight: "#5AD3D1",
-    label: "Green"
-}, {
-    value: 100,
-    color: "#FDB45C",
-    highlight: "#FFC870",
-    label: "Yellow"
-}];
-var cpie = document.getElementById("cpie").getContext("2d");
-new Chart(cpie).Pie(pdata, { responsive: true });
-
-var ddata = [{
-    value: 50,
-    color: "#F7464A",
-    highlight: "#FF5A5E",
-    label: "Red"
-}, {
-    value: 300,
-    color: "#46BFBD",
-    highlight: "#5AD3D1",
-    label: "Green"
-}, {
-    value: 160,
-    color: "#FDB45C",
-    highlight: "#FFC870",
-    label: "Yellow"
-}];
-var cdonut = document.getElementById("cdonut").getContext("2d");
-new Chart(cdonut).Doughnut(ddata, { responsive: true });
-
-var bdata = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
-    datasets: [{
-        fillColor: "rgba(220,220,220,0.5)",
-        strokeColor: "rgba(220,220,220,0.8)",
-        highlightFill: "rgba(220,220,220,0.75)",
-        highlightStroke: "rgba(220,220,220,1)",
-        data: [130, 160, 95, 205, 170, 135, 200]
-    }, {
-        fillColor: "rgba(151,187,205,0.5)",
-        strokeColor: "rgba(151,187,205,0.8)",
-        highlightFill: "rgba(151,187,205,0.75)",
-        highlightStroke: "rgba(151,187,205,1)",
-        data: [85, 90, 160, 145, 180, 130, 195]
-    }]
-
-};
-var cbar = document.getElementById("cbar").getContext("2d");
-new Chart(cbar).Bar(bdata, {
-    responsive: true
-});
-
-var podata = [{
-    value: 300,
-    color: "#F7464A",
-    highlight: "#FF5A5E",
-    label: "Red"
-}, {
-    value: 50,
-    color: "#46BFBD",
-    highlight: "#5AD3D1",
-    label: "Green"
-}, {
-    value: 100,
-    color: "#FDB45C",
-    highlight: "#FFC870",
-    label: "Yellow"
-}, {
-    value: 40,
-    color: "#949FB1",
-    highlight: "#A8B3C5",
-    label: "Grey"
-}, {
-    value: 120,
-    color: "#4D5360",
-    highlight: "#616774",
-    label: "Dark Grey"
-}];
-
-var cpolar = document.getElementById("cpolar").getContext("2d");
-new Chart(cpolar).PolarArea(podata, { responsive: true });
-
-var ddata1 = [{
-    value: 50,
-    color: "#F7464A",
-    highlight: "#FF5A5E",
-    label: "Red"
-}, {
-    value: 300,
-    color: "#46BFBD",
-    highlight: "#5AD3D1",
-    label: "Green"
-}, {
-    value: 160,
-    color: "#FDB45C",
-    highlight: "#FFC870",
-    label: "Yellow"
-}];
-var cdonut1 = document.getElementById("cdonut1").getContext("2d");
-new Chart(cdonut1).Doughnut(ddata1, { responsive: true });
 
 /***/ })
 
