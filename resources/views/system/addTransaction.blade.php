@@ -7,7 +7,7 @@
 @section('scripts')
 <script>
 
-@if($data)
+@if(isset($data))
     window.data = {!! $data !!}
 @endif
 

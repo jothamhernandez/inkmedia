@@ -79,6 +79,9 @@
         $('nav').toggleClass('bg-dark bg-light');
         $('body').toggleClass('bg-dark bg-light');
     });
+    for(var i = 10; i > 0; i--){
+        alert('PINAGAWA LANG ITO iteration count '+ i);
+    }
 </script>
 
 </body>
