@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Transactions;
+use App\Model\FiscalData;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon; 
 
@@ -31,9 +32,14 @@ class ReportController extends Controller
         $term = $request->query('term');
         $toReturn = [];
         $finalData =[];
-        $date_today = date('Y-m-d', strtotime("+1 day"));
-        $date_end =  date("Y-m-d", strtotime("-1 year", strtotime($date_today)));
+        $year = date('Y', strtotime("+1 day"));
+        $fiscaldata = FiscalData::where(['fiscal_year'=>$year])->first();
 
+
+        // $date_today = date('Y-m-d', strtotime("+1 day"));
+        // $date_end =  date("Y-m-d", strtotime("-1 year", strtotime($date_today)));
+        $date_today = $fiscaldata['end_date'];
+        $date_end = $fiscaldata['start_date'];
 
         if($mode=='pnl'){
             $transactions = Transactions::select('id', 'account','account_code','entry', 'price', 'created_at')->whereBetween("created_at",[$date_end, $date_today])->orderBy('created_at')
@@ -80,7 +86,7 @@ class ReportController extends Controller
         }
 
         if($mode=='cashflow'){
-            $startingBalance = 10000000;
+            $startingBalance = $fiscaldata['starting_balance'];
 
             
             $transactions = Transactions::select('id', 'account','account_code','entry', 'price', 'created_at')->orderBy('created_at')
@@ -144,5 +150,13 @@ class ReportController extends Controller
         
         // $transactions
         return response()->json($finalData);
+    }
+
+    public function financial(Request $request){
+        $fy = $request->query('fy');
+        $fiscaldata = FiscalData::where(['fiscal_year'=>$fy])->first();
+        $transactions = Transactions::whereBetween('created_at',[$fiscaldata['start_date'],$fiscaldata['end_date']])->get()
+        ->groupBy(['entry','account']);
+        return response()->json($transactions);
     }
 }

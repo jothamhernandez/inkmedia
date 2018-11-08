@@ -25,6 +25,7 @@ Route::group(['prefix'=>'admin','middleware'=>['auth']], function(){
         Route::get('vendors','System\ManageController@vendors')->name('manage.vendors');
         Route::get('chart-of-accounts','System\ManageController@chartofaccounts')->name('manage.coa');
         Route::get('item-products','System\ManageController@itemproduct')->name('manage.items');
+        Route::get('fiscaldata', 'System\ManageController@fiscal')->name('manage.fiscal');
     });
 
     // Manage Routes
@@ -47,5 +48,9 @@ Route::group(['prefix'=>'admin','middleware'=>['auth']], function(){
         Route::get('journaltransaction','System\AccountingController@journaltransaction')->name('accounting.journaltransaction');
         Route::get('journaltransaction/{id}', 'System\AccountingController@editJournal')->name('accounting.journaltransaction.edit');
         Route::get('startingbalance','System\AccountingController@startingbalance')->name('accounting.startingbalance');
+    });
+
+    Route::group(['prefix'=>'report'], function(){
+        Route::get('financial', 'System\ReportController@financial')->name('report.financial');
     });
 });

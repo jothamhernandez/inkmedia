@@ -25,4 +25,8 @@ class ManageController extends Controller
     public function itemproduct(){
         return view('system.itemproducts');
     }
+
+    public function fiscal(){
+        return view('system.fiscaldata');
+    }
 }

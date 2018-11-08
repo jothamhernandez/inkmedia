@@ -21,13 +21,14 @@ Vue.component('admin-dashboard', require('./components/DashboardComponent.vue'))
 Vue.component('admin-customerpage',require('./components/CustomerPageComponent.vue'));
 Vue.component('admin-vendorpage',require('./components/VendorPageComponent.vue'));
 Vue.component('admin-coapage', require('./components/COAComponent.vue'));
+Vue.component('admin-fiscaldata', require('./components/FiscalDataComponent.vue'));
 Vue.component('admin-itempage', require('./components/ItemPageComponent.vue'));
 Vue.component('admin-estimatepage', require('./components/EstimatePageComponent.vue'));
 Vue.component('admin-transaction',require('./components/TransactionPageComponent.vue'));
 Vue.component('admin-invoicespage', require('./components/InvoicesPageComponent.vue'));
 Vue.component('admin-addtransaction', require('./components/AddTransactionPageComponent.vue'));
-
 Vue.component('admin-billspage',require('./components/BillsPageComponent.vue'));
+Vue.component('admin-financial',require('./components/FinancialComponent.vue'));
 
 Vue.component('admin-journal',require('./components/JournalPageComponent.vue'));
 

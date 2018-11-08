@@ -23,6 +23,12 @@
                 </div>
             </div>
             <div class="col-md-7">
+                <div class="col-md-12" v-if="fiscaldata != null">
+                    <h3>Fiscal Year: {{fiscaldata.fiscal_year}}</h3>
+                    <h5>Starting Date: <date-component :date="fiscaldata.start_date"></date-component> </h5>
+                    <h5>End Date: <date-component :date="fiscaldata.end_date"></date-component> </h5>
+                    <h5>Starting Balance: <currency currency="Php" :value="fiscaldata.starting_balance"></currency></h5>
+                </div>
                 <div class="floating-card col-md-12 clearfix">
                     <h2 class="inkmedia-header">Cash Flow</h2>
                     <div class="clearfix">
@@ -121,9 +127,18 @@
 <script>
 export default {
     name:'admin-dashboard',
+    data(){
+        return {
+            fiscaldata: null
+        }
+    },
     mounted(){
 
-        $(document).ready(function(){
+        $(document).ready(()=>{
+
+            axios.get('/api/v1/fiscaldata').then(response=>{
+                this.fiscaldata = response.data[0];
+            });
             
             axios.get('/api/v1/report?mode=cashflow&term=monthly').then(r=>{
                 Morris.Line({

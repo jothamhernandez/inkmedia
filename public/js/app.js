@@ -11786,13 +11786,14 @@ Vue.component('admin-dashboard', __webpack_require__(45));
 Vue.component('admin-customerpage', __webpack_require__(51));
 Vue.component('admin-vendorpage', __webpack_require__(56));
 Vue.component('admin-coapage', __webpack_require__(61));
+Vue.component('admin-fiscaldata', __webpack_require__(161));
 Vue.component('admin-itempage', __webpack_require__(66));
 Vue.component('admin-estimatepage', __webpack_require__(71));
 Vue.component('admin-transaction', __webpack_require__(76));
 Vue.component('admin-invoicespage', __webpack_require__(81));
 Vue.component('admin-addtransaction', __webpack_require__(86));
-
 Vue.component('admin-billspage', __webpack_require__(91));
+Vue.component('admin-financial', __webpack_require__(150));
 
 Vue.component('admin-journal', __webpack_require__(96));
 
@@ -46288,7 +46289,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -46452,12 +46453,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'admin-dashboard',
+    data: function data() {
+        return {
+            fiscaldata: null
+        };
+    },
     mounted: function mounted() {
+        var _this = this;
 
         $(document).ready(function () {
+
+            axios.get('/api/v1/fiscaldata').then(function (response) {
+                _this.fiscaldata = response.data[0];
+            });
 
             axios.get('/api/v1/report?mode=cashflow&term=monthly').then(function (r) {
                 Morris.Line({
@@ -46501,185 +46518,247 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-7" }, [
+        _vm.fiscaldata != null
+          ? _c("div", { staticClass: "col-md-12" }, [
+              _c("h3", [
+                _vm._v("Fiscal Year: " + _vm._s(_vm.fiscaldata.fiscal_year))
+              ]),
+              _vm._v(" "),
+              _c(
+                "h5",
+                [
+                  _vm._v("Starting Date: "),
+                  _c("date-component", {
+                    attrs: { date: _vm.fiscaldata.start_date }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "h5",
+                [
+                  _vm._v("End Date: "),
+                  _c("date-component", {
+                    attrs: { date: _vm.fiscaldata.end_date }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "h5",
+                [
+                  _vm._v("Starting Balance: "),
+                  _c("currency", {
+                    attrs: {
+                      currency: "Php",
+                      value: _vm.fiscaldata.starting_balance
+                    }
+                  })
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm._m(2),
+        _vm._v(" "),
+        _vm._m(3),
+        _vm._v(" "),
+        _vm._m(4)
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row" }, [
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("h1", { staticClass: "float-left" }, [_vm._v("Dashboard")]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn btn-primary float-right" }, [
+          _c("i", { staticClass: "fa fa-plus" }),
+          _vm._v(" Create a new")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-5" }, [
+      _c("div", { staticClass: "floating-card col-md-12" }, [
+        _c("h2", { staticClass: "inkmedia-header" }, [
+          _vm._v("Things you can do")
+        ]),
+        _vm._v(" "),
         _c("div", { staticClass: "col-md-12" }, [
-          _c("h1", { staticClass: "float-left" }, [_vm._v("Dashboard")]),
-          _vm._v(" "),
-          _c("button", { staticClass: "btn btn-primary float-right" }, [
-            _c("i", { staticClass: "fa fa-plus" }),
-            _vm._v(" Create a new")
+          _c("button", { staticClass: "btn btn-link clearfix" }, [
+            _vm._v("Add Customer")
           ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("button", { staticClass: "btn btn-link clearfix" }, [
+            _vm._v("Add Vendor")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("button", { staticClass: "btn btn-link clearfix" }, [
+            _vm._v("Customize your invoice")
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "floating-card col-md-12 clearfix" }, [
+      _c("h2", { staticClass: "inkmedia-header" }, [_vm._v("Cash Flow")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "clearfix" }, [
+        _c("p", { staticClass: "float-left" }, [
+          _vm._v("Cash coming in and going out of your business")
+        ]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn btn-link float-right" }, [
+          _vm._v("View Report")
         ])
       ]),
       _vm._v(" "),
+      _c("div", { staticClass: "graph-placeholder" }, [
+        _c("div", { attrs: { id: "cashflow" } })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "floating-card col-md-12 clearfix" }, [
+      _c("h2", { staticClass: "inkmedia-header" }, [_vm._v("Profit & Loss")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "clearfix" }, [
+        _c("p", { staticClass: "float-left" }, [
+          _vm._v(
+            "Income and expenses only (includes unpaid invoices and bills)."
+          )
+        ]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn btn-link float-right" }, [
+          _vm._v("View Report")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "graph-placeholder" }, [
+        _c("div", { attrs: { id: "profitloss" } })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "floating-card col-md-12 clearfix" }, [
+      _c("h2", { staticClass: "inkmedia-header" }, [_vm._v("Payable & Owing")]),
+      _vm._v(" "),
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-5" }, [
-          _c("div", { staticClass: "floating-card col-md-12" }, [
-            _c("h2", { staticClass: "inkmedia-header" }, [
-              _vm._v("Things you can do")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-12" }, [
-              _c("button", { staticClass: "btn btn-link clearfix" }, [
-                _vm._v("Add Customer")
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("table", { staticClass: "table " }, [
+            _c("thead", [
+              _c("tr", [
+                _c("th", { attrs: { colspan: "2" } }, [
+                  _vm._v("Invoice payable to you")
+                ])
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col-md-12" }, [
-              _c("button", { staticClass: "btn btn-link clearfix" }, [
-                _vm._v("Add Vendor")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-12" }, [
-              _c("button", { staticClass: "btn btn-link clearfix" }, [
-                _vm._v("Customize your invoice")
+            _c("tbody", [
+              _c("tr", [
+                _c("td", [_vm._v("sample")]),
+                _vm._v(" "),
+                _c("td", [_vm._v("sample")])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("sample")]),
+                _vm._v(" "),
+                _c("td", [_vm._v("sample")])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("sample")]),
+                _vm._v(" "),
+                _c("td", [_vm._v("sample")])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("sample")]),
+                _vm._v(" "),
+                _c("td", [_vm._v("sample")])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("sample")]),
+                _vm._v(" "),
+                _c("td", [_vm._v("sample")])
               ])
             ])
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-7" }, [
-          _c("div", { staticClass: "floating-card col-md-12 clearfix" }, [
-            _c("h2", { staticClass: "inkmedia-header" }, [_vm._v("Cash Flow")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "clearfix" }, [
-              _c("p", { staticClass: "float-left" }, [
-                _vm._v("Cash coming in and going out of your business")
-              ]),
-              _vm._v(" "),
-              _c("button", { staticClass: "btn btn-link float-right" }, [
-                _vm._v("View Report")
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("table", { staticClass: "table" }, [
+            _c("thead", [
+              _c("tr", [
+                _c("th", { attrs: { colspan: "2" } }, [_vm._v("Bills you owe")])
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "graph-placeholder" }, [
-              _c("div", { attrs: { id: "cashflow" } })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "floating-card col-md-12 clearfix" }, [
-            _c("h2", { staticClass: "inkmedia-header" }, [
-              _vm._v("Profit & Loss")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "clearfix" }, [
-              _c("p", { staticClass: "float-left" }, [
-                _vm._v(
-                  "Income and expenses only (includes unpaid invoices and bills)."
-                )
+            _c("tbody", [
+              _c("tr", [
+                _c("td", [_vm._v("sample")]),
+                _vm._v(" "),
+                _c("td", [_vm._v("sample")])
               ]),
               _vm._v(" "),
-              _c("button", { staticClass: "btn btn-link float-right" }, [
-                _vm._v("View Report")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "graph-placeholder" }, [
-              _c("div", { attrs: { id: "profitloss" } })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "floating-card col-md-12 clearfix" }, [
-            _c("h2", { staticClass: "inkmedia-header" }, [
-              _vm._v("Payable & Owing")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("table", { staticClass: "table " }, [
-                  _c("thead", [
-                    _c("tr", [
-                      _c("th", { attrs: { colspan: "2" } }, [
-                        _vm._v("Invoice payable to you")
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tbody", [
-                    _c("tr", [
-                      _c("td", [_vm._v("sample")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("sample")])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("sample")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("sample")])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("sample")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("sample")])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("sample")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("sample")])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("sample")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("sample")])
-                    ])
-                  ])
-                ])
+              _c("tr", [
+                _c("td", [_vm._v("sample")]),
+                _vm._v(" "),
+                _c("td", [_vm._v("sample")])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("table", { staticClass: "table" }, [
-                  _c("thead", [
-                    _c("tr", [
-                      _c("th", { attrs: { colspan: "2" } }, [
-                        _vm._v("Bills you owe")
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tbody", [
-                    _c("tr", [
-                      _c("td", [_vm._v("sample")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("sample")])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("sample")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("sample")])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("sample")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("sample")])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("sample")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("sample")])
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("sample")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("sample")])
-                    ])
-                  ])
-                ])
+              _c("tr", [
+                _c("td", [_vm._v("sample")]),
+                _vm._v(" "),
+                _c("td", [_vm._v("sample")])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("sample")]),
+                _vm._v(" "),
+                _c("td", [_vm._v("sample")])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("sample")]),
+                _vm._v(" "),
+                _c("td", [_vm._v("sample")])
               ])
             ])
           ])
@@ -52542,19 +52621,19 @@ if (false) {
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(117)
+  __webpack_require__(158)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(119)
 /* template */
-var __vue_template__ = __webpack_require__(120)
+var __vue_template__ = __webpack_require__(160)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-bbdb8ce6"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -52587,46 +52666,8 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 117 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(118);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("bc00d11e", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-bbdb8ce6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CurrencyComponent.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-bbdb8ce6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CurrencyComponent.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 118 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 117 */,
+/* 118 */,
 /* 119 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -52652,26 +52693,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 120 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [_c("p", [_vm._v(_vm._s(_vm.currencyValue))])])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-bbdb8ce6", module.exports)
-  }
-}
-
-/***/ }),
+/* 120 */,
 /* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -52924,19 +52946,19 @@ if (false) {
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(127)
+  __webpack_require__(155)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(129)
 /* template */
-var __vue_template__ = __webpack_require__(130)
+var __vue_template__ = __webpack_require__(157)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-f5b7a4e0"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -52969,46 +52991,8 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 127 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(128);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("1675f5ae", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f5b7a4e0\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./DateComponent.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f5b7a4e0\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./DateComponent.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 128 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 127 */,
+/* 128 */,
 /* 129 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -53041,7 +53025,485 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 130 */
+/* 130 */,
+/* 131 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 132 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 133 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 134 */,
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(151)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(153)
+/* template */
+var __vue_template__ = __webpack_require__(154)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/FinancialComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-60ec0eeb", Component.options)
+  } else {
+    hotAPI.reload("data-v-60ec0eeb", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 151 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(152);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("5fc1f73f", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-60ec0eeb\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FinancialComponent.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-60ec0eeb\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FinancialComponent.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 153 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            fiscal: null,
+            report: [],
+            fiscaldata: [],
+            finance: {}
+        };
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        axios('/api/v1/fiscaldata').then(function (response) {
+            _this.fiscaldata = response.data;
+        });
+    },
+
+    methods: {
+        getFinancialReport: function getFinancialReport() {
+            var _this2 = this;
+
+            axios("/api/v1/report/financial?fy=" + this.fiscal.fiscal_year).then(function (response) {
+                _this2.finance = {};
+                _this2.report = response.data;
+            });
+        },
+        getTotal: function getTotal(array) {
+            var total = 0;
+            array.forEach(function (data) {
+                total += data.price;
+            });
+
+            return total;
+        },
+        getEntry: function getEntry(e) {
+            return e == "credit" ? "Expense" : "Income";
+        },
+        compute: function compute(array) {
+            var _this3 = this;
+
+            array.forEach(function (data) {
+                if (_this3.finance["" + data.entry] == null) {
+                    _this3.finance["" + data.entry] = 0;
+                }
+                _this3.finance["" + data.entry] += parseFloat(data.price);
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 154 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "" } }, [_vm._v("Fiscal Year")]),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.fiscal,
+                  expression: "fiscal"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { name: "", id: "" },
+              on: {
+                change: [
+                  function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.fiscal = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  },
+                  _vm.getFinancialReport
+                ]
+              }
+            },
+            _vm._l(_vm.fiscaldata, function(fiscal) {
+              return _c(
+                "option",
+                { key: fiscal.id, domProps: { value: fiscal } },
+                [_vm._v(_vm._s(fiscal.fiscal_year))]
+              )
+            })
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "row" },
+      [
+        _vm.fiscal
+          ? _c("div", { staticClass: "col-md-12" }, [
+              _c("h1", [_vm._v("Starting Balance")]),
+              _vm._v(" "),
+              _c("table", { staticClass: "table" }, [
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [_vm._v("Balance")]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "text-right" },
+                      [
+                        _c("currency", {
+                          attrs: {
+                            currency: "Php",
+                            value: _vm.fiscal.starting_balance
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                ])
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm._l(_vm.report, function(value, key) {
+          return _c("div", { key: key, staticClass: "col-md-12" }, [
+            _c("h1", [_vm._v(_vm._s(_vm.getEntry(key)))]),
+            _vm._v(" "),
+            _c("div", [
+              _c("table", { staticClass: "table" }, [
+                _vm._m(1, true),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(value, function(value2, key2) {
+                    return _c("tr", { key: key2 }, [
+                      _c("td", [_vm._v(_vm._s(key2))]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        { staticClass: "text-right" },
+                        [
+                          _vm._v(_vm._s(_vm.compute(value2))),
+                          _c("currency", {
+                            attrs: {
+                              currency: "Php",
+                              value: _vm.getTotal(value2)
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ])
+                  })
+                )
+              ])
+            ])
+          ])
+        }),
+        _vm._v(" "),
+        _vm.finance.debit
+          ? _c("div", { staticClass: "col-md-12" }, [
+              _c("h1", [_vm._v("Ending Balance")]),
+              _vm._v(" "),
+              _c("table", { staticClass: "table" }, [
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [_vm._v("Balance")]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "text-right" },
+                      [
+                        _c("currency", {
+                          attrs: {
+                            currency: "Php",
+                            value:
+                              _vm.fiscal.starting_balance +
+                              _vm.finance.debit -
+                              _vm.finance.credit
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                ])
+              ])
+            ])
+          : _vm._e()
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("h1", [_vm._v("Financial Report")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Accounts")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Balance")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-60ec0eeb", module.exports)
+  }
+}
+
+/***/ }),
+/* 155 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(156);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("1e41fc4e", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f5b7a4e0\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./DateComponent.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f5b7a4e0\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./DateComponent.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 156 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\ndiv[data-v-f5b7a4e0] {\n    display: inline;\n}\np[data-v-f5b7a4e0]{\n    display: inline;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -53061,22 +53523,325 @@ if (false) {
 }
 
 /***/ }),
-/* 131 */
-/***/ (function(module, exports) {
+/* 158 */
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(159);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("5eb3fac6", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-bbdb8ce6\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CurrencyComponent.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-bbdb8ce6\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CurrencyComponent.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
 
 /***/ }),
-/* 132 */
-/***/ (function(module, exports) {
+/* 159 */
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\ndiv[data-v-bbdb8ce6], p[data-v-bbdb8ce6] {\n    display: inline;\n}\n", ""]);
+
+// exports
+
 
 /***/ }),
-/* 133 */
-/***/ (function(module, exports) {
+/* 160 */
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_c("p", [_vm._v(_vm._s(_vm.currencyValue))])])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-bbdb8ce6", module.exports)
+  }
+}
+
+/***/ }),
+/* 161 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(162)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(164)
+/* template */
+var __vue_template__ = __webpack_require__(165)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/FiscalDataComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7fa9376e", Component.options)
+  } else {
+    hotAPI.reload("data-v-7fa9376e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 162 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(163);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("33391671", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7fa9376e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FiscalDataComponent.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7fa9376e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FiscalDataComponent.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 163 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 164 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            form: {
+                url: '/api/v1/fiscaldata',
+                submitText: "Add Fiscal Year",
+                fields: [{
+                    name: 'Fiscal Year',
+                    type: 'number',
+                    model: 'fiscal_year'
+                }, {
+                    name: 'Start Date',
+                    type: 'date',
+                    model: 'start_date'
+                }, {
+                    name: 'End Date',
+                    type: 'date',
+                    model: 'end_date'
+                }, {
+                    name: 'Starting Balance',
+                    type: 'number',
+                    model: 'starting_balance'
+                }]
+            },
+            fiscaldata: [],
+            columns: [{
+                title: "Fiscal Year",
+                mData: 'fiscal_year'
+            }, {
+                title: "Starting Date",
+                mData: 'start_date',
+                mRender: function mRender(data) {
+                    return datefixed(data);
+                }
+            }, {
+                title: "Ending Date",
+                mData: 'end_date',
+                mRender: function mRender(data) {
+                    return datefixed(data);
+                }
+            }, {
+                title: "Starting Balance",
+                mData: 'starting_balance',
+                mRender: function mRender(data) {
+                    return toCurrency('Php', data);
+                }
+            }, {
+                title: "Actions",
+                mData: function mData(data) {
+                    return data;
+                },
+                mRender: function mRender(data) {
+                    return '\n                            <button class="btn btn-link"  data-toggle="tooltip" data-placement="top" title="remove" data-action=\'remove\' data-id="' + data.id + '"><i class="fa fa-times" label="cancel"></i></button>\n                            ';
+                }
+            }]
+        };
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        axios('/api/v1/fiscaldata').then(function (response) {
+            _this.fiscaldata = response.data;
+        });
+    },
+
+    methods: {
+        addFiscalRecord: function addFiscalRecord(e) {
+            console.log(e);
+            this.fiscaldata.push(e);
+        },
+        removeItem: function removeItem(e) {
+            this.fiscaldata.splice(this.fiscaldata.indexOf(e), 1);
+        }
+    }
+});
+
+/***/ }),
+/* 165 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "row" },
+      [
+        _c("data-table", {
+          attrs: {
+            url: "/api/v1/fiscaldata",
+            data: _vm.fiscaldata,
+            columns: _vm.columns
+          },
+          on: { remove: _vm.removeItem }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "row" },
+      [
+        _c("add-modal", {
+          attrs: { id: "fiscal-modal", form: _vm.form },
+          on: { submit: _vm.addFiscalRecord }
+        })
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("h1", { staticClass: "float-left" }, [_vm._v("Fiscal Year Data")]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary float-right",
+            attrs: { "data-toggle": "modal", "data-target": "#fiscal-modal" }
+          },
+          [_c("i", { staticClass: "fa fa-plus" }), _vm._v(" Add a Fiscal Year")]
+        )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7fa9376e", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

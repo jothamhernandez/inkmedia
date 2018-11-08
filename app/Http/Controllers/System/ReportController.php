@@ -8,4 +8,7 @@ use App\Http\Controllers\Controller;
 class ReportController extends Controller
 {
     //
+    public function financial(){
+        return view('system.financial');
+    }
 }

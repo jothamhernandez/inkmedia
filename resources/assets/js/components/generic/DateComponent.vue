@@ -37,6 +37,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    div {
+        display: inline;
+    } 
+    p{
+        display: inline;
+    }
 </style>

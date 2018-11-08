@@ -28,5 +28,7 @@ Route::group(['prefix'=>'v1'], function(){
     Route::apiResource('invoice', 'Api\InvoiceController');
     Route::apiResource('bills', 'Api\BillController');
     Route::apiResource('journal', 'Api\JournalController');
+    Route::apiResource('fiscaldata','Api\FiscalDataController');
     Route::get('report','Api\ReportController@profitandloss');
+    Route::get('report/financial', 'Api\ReportController@financial');
 });

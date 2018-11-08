@@ -18,6 +18,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    div, p {
+        display: inline;
+    }
 </style>
