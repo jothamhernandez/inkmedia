@@ -14,9 +14,27 @@ class CoaCategory extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $entry = $request->query('entry');
+
+        if($entry){
+            $coa = CoaModel::where('entry_type', $entry)->get();
+
+            $data =[];
+            $coa->map(function($a) use (&$data){
+                
+                collect($a['coa_types'])->map(function($b) use (&$data){
+                    collect($b['accounts'])->map(function($c) use (&$data){
+                        array_push($data, $c);
+                    });
+                });
+            });
+
+            return response()->json($data);
+        }
+
         return response()->json(CoaModel::all());
     }
 

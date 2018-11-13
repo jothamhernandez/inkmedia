@@ -15,7 +15,7 @@
                                <label for="" class="col-form-label col-md-3 text-right">{{field.name}}</label>
                                <div class="col-md-9" v-if="field.type == 'select'">
                                    <select name="" id="" class="form-control" v-model="newForm[field.model]">
-                                       <option :value="options[field.model]" v-for="options in field.options" :key="options.id" v-if="field.options != null">{{options[field.model]}}</option>
+                                       <option :value="options[field.model]" v-for="options in field.options" :key="options.id" v-if="field.options != null">{{options[field.db_data] || options[field.model]}}</option>
                                    </select>
                                 </div>
                                 <div class="col-md-9" v-if="field.type != 'select'">

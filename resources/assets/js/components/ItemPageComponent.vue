@@ -59,8 +59,10 @@ export default {
                     },
                     {
                         name: "Income Account",
-                        type: "text",
+                        type: "select",
+                        options: [],
                         model: 'income_account',
+                        db_data: 'account_name',
                         required: 'isSellable'
                     },
                     {
@@ -70,8 +72,10 @@ export default {
                     },
                     {
                         name: "Expense Account",
-                        type: "text",
+                        type: "select",
+                        options: [],
                         model: 'expense_account',
+                        db_data: 'account_name',
                         required: 'isBuyable'
                     },
                     {
@@ -89,6 +93,12 @@ export default {
             axios('/api/v1/items').then(r=>{
                 this.record = r.data;
             });
+            axios('/api/v1/coa?entry=debit').then(r=>{
+                this.form.fields[4].options = r.data;
+            })
+            axios('/api/v1/coa?entry=credit').then(r=>{
+                this.form.fields[6].options = r.data;
+            })
         
     },
     methods: {

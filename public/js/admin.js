@@ -60,34 +60,34 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 134);
+/******/ 	return __webpack_require__(__webpack_require__.s = 144);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 134:
+/***/ 144:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(135);
+module.exports = __webpack_require__(145);
 
 
 /***/ }),
 
-/***/ 135:
+/***/ 145:
 /***/ (function(module, exports, __webpack_require__) {
 
 // metisMenu
-__webpack_require__(136);
+__webpack_require__(146);
 
 // theme
-__webpack_require__(137);
+__webpack_require__(147);
 
 // frontend
-__webpack_require__(138);
+__webpack_require__(148);
 
 /***/ }),
 
-/***/ 136:
+/***/ 146:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -426,7 +426,7 @@ __webpack_require__(138);
 
 /***/ }),
 
-/***/ 137:
+/***/ 147:
 /***/ (function(module, exports) {
 
 $(function () {
@@ -467,7 +467,7 @@ $(function () {
 
 /***/ }),
 
-/***/ 138:
+/***/ 148:
 /***/ (function(module, exports) {
 
 var lineChartData = {
